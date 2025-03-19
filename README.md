@@ -2,3 +2,16 @@
 
 # sharkfin
 A shark-y bootstrapper which offers new features for casuals and professionals to modify their Roblox experience!
+
+> [!WARNING]
+> sharkfin is in it's early stages of development. No compiled builds will be released until the code is production-ready.
+
+# Features
+
+> [!WARNING]
+> These features are not finalized/finished and may change throughout sharkfin's development depending if claimed features are do-able or not.
+
+- Customizable Bootloader (HTML+CSS)
+- Discord Integration
+    - Custom Discord Status
+    - 
