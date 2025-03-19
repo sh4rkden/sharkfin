@@ -1,0 +1,54 @@
+
+html, body {
+    margin: 0;
+    width: 100vw;
+    height: 100vh;
+    overflow-x: hidden;
+}
+
+@font-face {
+    font-family: "Fredoka";
+    src: url("/assets/fonts/Fredoka.ttf");
+}
+
+text {
+    font-family: "Fredoka";
+}
+
+.checkBg {
+    position: relative;
+    background-color: gray;
+    overflow: hidden; /* Ensure the rotated background doesn’t exceed bounds */
+}
+
+.checkBg::before {
+    content: "";
+    position: absolute;
+    top: -100%;
+    left: -100%;
+    width: 300%;
+    height: 300%;
+    background: conic-gradient(
+        var(--color1) 90deg,
+        var(--color2) 90deg 180deg,
+        var(--color1) 180deg 270deg,
+        var(--color2) 270deg
+    );
+    background-repeat: repeat;
+    background-size: 50px 50px;
+    animation-name: slide;
+    animation-duration: 18s;
+    animation-timing-function: linear;
+    animation-iteration-count: infinite;
+    transform: rotate(30deg);
+}
+
+@keyframes slide {
+    from {
+        background-position: 0px 0px;
+    }
+
+    to {
+        background-position: 550px 0px;
+    }
+}

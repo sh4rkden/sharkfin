@@ -6,13 +6,23 @@ A shark-y bootstrapper which offers new features for casuals and professionals t
 > [!WARNING]
 > sharkfin is in it's early stages of development. No compiled builds will be released until the code is production-ready.
 
+# Prerequisites
+> [!WARNING]
+> These following things are required before testing sharkfin yourself by pure code.
+
+- [Microsoft Edge WebView2](https://developer.microsoft.com/en-us/microsoft-edge/webview2?form=MA13LH#download)
+
 # Features
 
 > [!WARNING]
-> These features are not finalized/finished and may change throughout sharkfin's development depending if claimed features are do-able or not.
+> These features are not finalized/finished and may change throughout sharkfin's development depending if claimed features are doable or not.
 
+- Activity Tracking
+    - You can toggle off some tracking, though some sharkfin features may not work!
 - Customizable Bootloader (HTML+CSS)
-- FFlag Customization
-- Discord In-Game Status
-- Discord Roblox Game Inviting (that one discord feature that sends an invite in chat, -maybe possible)
-- Python Modding Integration using the [sharkfin modding framework](https://github.com/sh4rkden/sharkfin-framework)
+- Customizable Fast Flags
+- Discord Rich Presence
+- Fast Flag Editor
+- Application Integration
+- Modding Integration (python) using the [sharkfin Modding Framework](https://github.com/snarkden/sharkfin-framework)
+- Multi-Instance Roblox Sessions
