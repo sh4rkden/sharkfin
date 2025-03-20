@@ -13,7 +13,9 @@ html, body {
 
 text {
     font-family: "Fredoka";
+    color: white;
 }
+
 
 .checkBg {
     position: relative;

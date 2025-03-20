@@ -7,20 +7,16 @@
     <link rel="stylesheet" href="/assets/html/styles/main.css">
 </head>
 <body>
-    <div class="checkBg" style="position: fixed; top: 0; left: 0; --color1: #3e83c5; --color2: #4274c5; width: 100vw; height: 100vh; z-index: -1;"></div>
-    <div class="mainWindowScreen">
+    <div class="checkBg" style="position: fixed; top: 0; left: 0; --color1: #4274c5; --color2: #3e83c5; width: 100vw; height: 100vh; z-index: -1;"></div>
+    <div class="mainWindowScreen" style="max-height: calc(100vh - 24px); height: 100%;">
         <div class="pywebview-drag-region titleBar" style="background-color: #4274c5; position: fixed; top: 0; left: 0; height: 24px; width: 100%; padding: 0 10px; z-index: 2;">
-            <img src="/assets/images/sharkfin.png" style="image-rendering: auto; width: 22px; height: 22px; margin-top: 2px; pointer-events: none;">
-            <text id="titleText" style="position: relative; font-size: 18px; color: #ffeed5; top: -5px; left: 5px;">sharkfin</text>
+            <img src="/assets/images/sharkfin.png" style="image-rendering: auto; width: 22px; height: 22px; margin-top: 1px; pointer-events: none;">
+            <text id="titleText" style="position: relative; font-size: 16px; color: #ffeed5; top: -5px; left: 5px;">sharkfin</text>
+        
         </div>
-        <div class="content" style="display: grid; grid-template-columns: 250px 1fr; margin-top: 24px; width: 100%; height: calc(100% - 24px); z-index: 1;">
-            <div class="sidebar">
-                <!-- Buttons go here -->
-            </div>
-
-            <div class="content">
-                <!-- sidebar content goes here depending on what user pressed -->
-            </div>
+        <div class="content" style="margin-top: 24px; width: 100%; height: 100%; z-index: 1;">
+            <!-- do this instead: grid menu, 3x2 with icons -->
+            <!-- cool eyecandy transition to the category pressed from a button interactable to a fullscreen showing the options and configurations for that setting i think????? -->
         </div>
     </div>
 </body>

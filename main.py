@@ -12,7 +12,6 @@ if __name__ == "__main__":
         width=1280, height=800,
         frameless=True,
         easy_drag=True,
-        resizable=True
     )
     
     
