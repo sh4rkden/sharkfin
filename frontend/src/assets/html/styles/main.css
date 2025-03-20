@@ -8,7 +8,7 @@ html, body {
 
 @font-face {
     font-family: "Fredoka";
-    src: url("/assets/fonts/Fredoka.ttf");
+    src: url("../../fonts/Fredoka.ttf");
 }
 
 text {
@@ -20,7 +20,7 @@ text {
 .checkBg {
     position: relative;
     background-color: gray;
-    overflow: hidden; /* Ensure the rotated background doesn’t exceed bounds */
+    overflow: hidden;
 }
 
 .checkBg::before {
