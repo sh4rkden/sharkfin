@@ -4,20 +4,166 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=0.85">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <link rel="stylesheet" href="/assets/html/styles/main.css">
+    <link rel="stylesheet" href="./assets/html/styles/main.css">
 </head>
 <body>
-    <div class="checkBg" style="position: fixed; top: 0; left: 0; --color1: #4274c5; --color2: #3e83c5; width: 100vw; height: 100vh; z-index: -1;"></div>
+    <div class="checkBg" style="position: fixed; top: 0; left: 0; --color1: #3b68b1; --color2: #3876b1; width: 100vw; height: 100vh; z-index: -1;"></div>
     <div class="mainWindowScreen" style="max-height: calc(100vh - 24px); height: 100%;">
-        <div class="pywebview-drag-region titleBar" style="background-color: #4274c5; position: fixed; top: 0; left: 0; height: 24px; width: 100%; padding: 0 10px; z-index: 2;">
-            <img src="/assets/images/sharkfin.png" style="image-rendering: auto; width: 22px; height: 22px; margin-top: 1px; pointer-events: none;">
-            <text id="titleText" style="position: relative; font-size: 16px; color: #ffeed5; top: -5px; left: 5px;">sharkfin</text>
-        
+        <div class="pywebview-drag-region titleBar" style="background-color: #4274c5; position: fixed; top: 0; left: 0; height: 24px; width: 100%; padding: 0 5px; z-index: 2;">
+            <div>
+                <img src="./assets/images/sharkfin.png" style="image-rendering: auto; width: 32px; height: 32px; margin-top: 3px; pointer-events: none;">
+                <text id="titleText" style="position: relative; font-size: 16px; color: #ffeed5; top: -17px; pointer-events: none; user-select: none;">sharkfin</text>
+            </div>
+
+            <!-- window control buttons, minimize and close (close is a mini-menu to save, exit, save and exit, save and launch) -->
+            <div style="position: fixed; top: 5px; right: 5px;">
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 3px;">
+                    <tabButton id="minimize-btn" style="--bgcolor: #ffffff;">
+                        <img src="./assets/images/minimize.png">
+                    </tabButton>
+                    <tabButton id="close-btn" style="--bgcolor: #ff0053;">
+                        <img src="./assets/images/close.png">
+                    </tabButton>
+                </div>
+            </div>
         </div>
-        <div class="content" style="margin-top: 24px; width: 100%; height: 100%; z-index: 1;">
-            <!-- do this instead: grid menu, 3x2 with icons -->
-            <!-- cool eyecandy transition to the category pressed from a button interactable to a fullscreen showing the options and configurations for that setting i think????? -->
+        <div class="content" style="display: grid; grid-template-columns: 42px 1fr; margin-top: 24px; width: 100%; height: 100%; z-index: 1;">
+            <div class="sidebar" style="box-sizing: border-box; display: flex; flex-direction: column; justify-content: space-between; gap: 3px; padding: 5px; background-color: #4274c5; height: 100%;">
+                <div style="display: flex; flex-direction: column; gap: 3px; margin-top: 10px;">
+                    <tabButton style="--bgcolor: #3f85c7;">
+                        <img src="./assets/images/puzzle.png">
+                        <text>Integrations</text>
+                    </tabButton>
+                    <tabButton style="--bgcolor: #3f85c7;">
+                        <img src="./assets/images/hardhat.png">
+                        <text>Mods</text>
+                    </tabButton>
+                    <tabButton style="--bgcolor: #3f85c7;">
+                        <img src="./assets/images/flag.png">
+                        <text>FFlags & Presets</text>
+                    </tabButton>
+                    <tabButton style="--bgcolor: #3f85c7;">
+                        <img src="./assets/images/bucket.png">
+                        <text>Customization</text>
+                    </tabButton>
+                    <tabButton style="--bgcolor: #3f85c7;">
+                        <img src="./assets/images/sharkfin.png">
+                        <text>Deployments</text>
+                    </tabButton>
+                </div>
+                
+                <div style="display: flex; flex-direction: column; gap: 3px;">
+                    <tabButton style="--bgcolor: #3f85c7;">
+                        <img src="./assets/images/sharkfin.png">
+                        <text>About sharkfin</text>
+                    </tabButton>
+                </div>
+            </div>
+
+            <div class="content" style="padding: 0 9%; overflow-y: auto; max-height: calc(100vh - 24px);">
+                <!-- This parent exists so we dont have to fuck up the entire ui and break shit -->
+
+                <div id="integrations" style="margin-top: 32px; margin-bottom: 32px;">
+                    <text style="font-size: 32px;">Integrations</text><br>
+                    <text>Configure additional Integrations to run with Roblox.</text>
+                    
+                    <div style="display: flex; gap: 5px; flex-direction: column; margin-top: 15px;">
+                        <div>
+                            <text style="font-size: 22px;">Activity Tracking</text><br>
+                            <text>Configure what you want sharkfin to track from your Roblox Activity.</text><br>
+                            <text style="font-size: 10px;">Some of these features are required by some sharkfin features or sharkfin mods. Disabling some of these options may cause them to not work properly.</text>
+                        </div>
+                        <div style="display: flex; background-color: #3f85c7; border-radius: 5px; padding: 10px;">
+                            <div>
+                                <text>Experiences</text><br>
+                                <text style="font-size: 14px;">Allow sharkfin to track what game you are currently playing in Roblox.</text>
+                            </div>
+                            <div style="margin-left: auto; align-content: center;">
+                                <switch-toggle data-id="experience-tracking"></switch-toggle>
+                            </div>
+                        </div>
+
+                        <div style="display: flex; background-color: #3f85c7; border-radius: 5px; padding: 10px;">
+                            <div>
+                                <text>Server Location</text><br>
+                                <text style="font-size: 14px;">Allow sharkfin to track the location of the server you are playing on.</text>
+                            </div>
+                            <div style="margin-left: auto; align-content: center;">
+                                <switch-toggle data-id="server-loc-tracking"></switch-toggle>
+                            </div>
+                        </div>
+
+                        <div style="display: flex; background-color: #3f85c7; border-radius: 5px; padding: 10px;">
+                            <div>
+                                <text>Chat Message Tracking</text><br>
+                                <text style="font-size: 14px;">Allow sharkfin to track Sent and Received Messages from the game you are currently playing on.</text>
+                            </div>
+                            <div style="margin-left: auto; align-content: center;">
+                                <switch-toggle data-id="message-tracking"></switch-toggle>
+                            </div>
+                        </div>
+
+                        <div style="display: flex; background-color: #3f85c7; border-radius: 5px; padding: 10px;">
+                            <div>
+                                <text>Player Join Tracking</text><br>
+                                <text style="font-size: 14px;">Allow sharkfin to track players Joining and Leaving the game you are currently playing on.</text>
+                            </div>
+                            <div style="margin-left: auto; align-content: center;">
+                                <switch-toggle data-id="join-tracking"></switch-toggle>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div style="display: flex; gap: 5px; flex-direction: column; margin-top: 15px;">
+                        <div>
+                            <text style="font-size: 22px;">Discord Rich Presence</text><br>
+                            <text>Display the current Roblox Game you are playing in Discord.</text><br>
+                            <text style="font-size: 10px;">This feature requires the Experiences tracking enabled to run properly.</text>
+                        </div>
+                        <div style="display: flex; background-color: #3f85c7; border-radius: 5px; padding: 10px;">
+                            <div>
+                                <text>Discord RPC</text><br>
+                                <text style="font-size: 14px;">Enables this feature and Displays the current Roblox Game you are playing.</text>
+                            </div>
+                            <div style="margin-left: auto; align-content: center;">
+                                <switch-toggle data-id="discord-rpc"></switch-toggle>
+                            </div>
+                        </div>
+
+                        <div style="display: flex; background-color: #3f85c7; border-radius: 5px; padding: 10px;">
+                            <div>
+                                <text>Allow Joining</text><br>
+                                <text style="font-size: 14px;">Allow anyone to join your game through your Discord Profile</text>
+                            </div>
+                            <div style="margin-left: auto; align-content: center;">
+                                <switch-toggle data-id="rpc-joining"></switch-toggle>
+                            </div>
+                        </div>
+
+                        <div style="display: flex; background-color: #3f85c7; border-radius: 5px; padding: 10px;">
+                            <div>
+                                <text>Display Roblox Account</text><br>
+                                <text style="font-size: 14px;">Display the current Roblox Account you are playing as.</text>
+                            </div>
+                            <div style="margin-left: auto; align-content: center;">
+                                <switch-toggle data-id="rpc-account"></switch-toggle>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    
+                </div>
+            </div>
         </div>
     </div>
+
+    <script src="./assets/html/scripts/main.js" type="module"></script>
+    <script src="./assets/html/scripts/switch.js"></script>
+    <script>
+        // uncomment to disable right click functionality, only for dev.
+        //document.addEventListener("contextmenu", (event) => event.preventDefault());
+    </script>
 </body>
 </html>

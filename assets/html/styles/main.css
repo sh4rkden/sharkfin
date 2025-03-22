@@ -4,11 +4,30 @@ html, body {
     width: 100vw;
     height: 100vh;
     overflow-x: hidden;
+    scroll-behavior: smooth;
+}
+
+::-webkit-scrollbar {
+    width: 10px;
+}
+
+::-webkit-scrollbar-track {
+    background: #2a5da8;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #4c84c9;
+    border-radius: 6px;
+    border: 2px solid #2a5da8;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #3a74b8;
 }
 
 @font-face {
     font-family: "Fredoka";
-    src: url("/assets/fonts/Fredoka.ttf");
+    src: url("../../fonts/Fredoka.ttf");
 }
 
 text {
@@ -17,10 +36,52 @@ text {
 }
 
 
+tabButton {
+    background-color: var(--bgcolor);
+    border-radius: 5px;
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    overflow: hidden;
+    border: none;
+    padding: 0 3px; /* jank ass bullshit (keeps images in the buttons centered properly) */
+    box-sizing: border-box;
+    cursor: pointer;
+
+    z-index: 2;
+    transition: width 350ms;
+}
+
+tabButton:hover {
+    width: 180px;
+}
+
+tabButton img {
+    width: 26px;
+    height: 26px;
+    pointer-events: none;
+    user-select: none;
+    flex: 0 0 auto;
+}
+
+tabButton text {
+    flex: 1;
+    text-align: right;
+    opacity: 0;
+    transition: opacity 100ms ease-in; /* Faster fade-out */
+    padding-right: 8px;
+}
+
+tabButton:hover text {
+    opacity: 1;
+    transition: opacity 500ms ease-out 200ms; /* Slower fade-in with delay */
+}
+
 .checkBg {
     position: relative;
     background-color: gray;
-    overflow: hidden; /* Ensure the rotated background doesn’t exceed bounds */
+    overflow: hidden;
 }
 
 .checkBg::before {
@@ -39,7 +100,7 @@ text {
     background-repeat: repeat;
     background-size: 50px 50px;
     animation-name: slide;
-    animation-duration: 18s;
+    animation-duration: 60s;
     animation-timing-function: linear;
     animation-iteration-count: infinite;
     transform: rotate(30deg);
