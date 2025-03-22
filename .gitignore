@@ -1,4 +1,1 @@
-node_modules
-frontend/dist
-myproject
-build
+.venv
