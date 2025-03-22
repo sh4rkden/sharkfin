@@ -4,14 +4,22 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=0.85">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
+<<<<<<< HEAD
     <link rel="stylesheet" href="./assets/html/styles/main.css">
+=======
+    <link rel="stylesheet" href="./src/assets/html/styles/main.css">
+>>>>>>> c0e5248cae6500d1321aaa3c2280c2a919f7ecd2
 </head>
 <body>
     <div class="checkBg" style="position: fixed; top: 0; left: 0; --color1: #3b68b1; --color2: #3876b1; width: 100vw; height: 100vh; z-index: -1;"></div>
     <div class="mainWindowScreen" style="max-height: calc(100vh - 24px); height: 100%;">
         <div class="titleBar" style="--wails-draggable:drag; background-color: #4274c5; position: fixed; top: 0; left: 0; height: 24px; width: 100%; padding: 0 5px; z-index: 2;">
             <div>
+<<<<<<< HEAD
                 <img src="./assets/images/sharkfin.png" style="image-rendering: auto; width: 32px; height: 32px; margin-top: 3px; pointer-events: none;">
+=======
+                <img src="./src/assets/images/sharkfin.png" style="image-rendering: auto; width: 32px; height: 32px; margin-top: 3px; pointer-events: none;">
+>>>>>>> c0e5248cae6500d1321aaa3c2280c2a919f7ecd2
                 <text id="titleText" style="position: relative; font-size: 16px; color: #ffeed5; top: -17px; pointer-events: none; user-select: none;">sharkfin</text>
             </div>
 
@@ -19,10 +27,17 @@
             <div style="--wails-draggable:nodrag; position: fixed; top: 5px; right: 5px;">
                 <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 3px;">
                     <tabButton id="minimize-btn" style="--bgcolor: #ffffff;">
+<<<<<<< HEAD
                         <img src="./assets/images/minimize.png">
                     </tabButton>
                     <tabButton id="close-btn" style="--bgcolor: #ff0053;">
                         <img src="./assets/images/close.png">
+=======
+                        <img src="./src/assets/images/minimize.png">
+                    </tabButton>
+                    <tabButton id="close-btn" style="--bgcolor: #ff0053;">
+                        <img src="./src/assets/images/close.png">
+>>>>>>> c0e5248cae6500d1321aaa3c2280c2a919f7ecd2
                     </tabButton>
                 </div>
             </div>
@@ -31,6 +46,7 @@
             <div class="sidebar" style="box-sizing: border-box; display: flex; flex-direction: column; justify-content: space-between; gap: 3px; padding: 5px; background-color: #4274c5; height: 100%;">
                 <div style="display: flex; flex-direction: column; gap: 3px; margin-top: 10px;">
                     <tabButton style="--bgcolor: #3f85c7;">
+<<<<<<< HEAD
                         <img src="./assets/images/puzzle.png">
                         <text>Integrations</text>
                     </tabButton>
@@ -48,19 +64,47 @@
                     </tabButton>
                     <tabButton style="--bgcolor: #3f85c7;">
                         <img src="./assets/images/sharkfin.png">
+=======
+                        <img src="./src/assets/images/puzzle.png">
+                        <text>Integrations</text>
+                    </tabButton>
+                    <tabButton style="--bgcolor: #3f85c7;">
+                        <img src="./src/assets/images/hardhat.png">
+                        <text>Mods</text>
+                    </tabButton>
+                    <tabButton style="--bgcolor: #3f85c7;">
+                        <img src="./src/assets/images/flag.png">
+                        <text>FFlags & Presets</text>
+                    </tabButton>
+                    <tabButton style="--bgcolor: #3f85c7;">
+                        <img src="./src/assets/images/bucket.png">
+                        <text>Customization</text>
+                    </tabButton>
+                    <tabButton style="--bgcolor: #3f85c7;">
+                        <img src="./src/assets/images/sharkfin.png">
+>>>>>>> c0e5248cae6500d1321aaa3c2280c2a919f7ecd2
                         <text>Deployments</text>
                     </tabButton>
                 </div>
                 
                 <div style="display: flex; flex-direction: column; gap: 3px;">
                     <tabButton style="--bgcolor: #3f85c7;">
+<<<<<<< HEAD
                         <img src="./assets/images/sharkfin.png">
+=======
+                        <img src="./src/assets/images/sharkfin.png">
+>>>>>>> c0e5248cae6500d1321aaa3c2280c2a919f7ecd2
                         <text>About sharkfin</text>
                     </tabButton>
                 </div>
             </div>
 
             <div class="content" style="padding: 0 9%; overflow-y: auto; max-height: calc(100vh - 24px);">
+<<<<<<< HEAD
+=======
+                <!-- This parent exists so we dont have to fuck up the entire ui and break shit -->
+
+>>>>>>> c0e5248cae6500d1321aaa3c2280c2a919f7ecd2
                 <div id="integrations" style="margin-top: 32px; margin-bottom: 32px;">
                     <text style="font-size: 32px;">Integrations</text><br>
                     <text>Configure additional Integrations to run with Roblox.</text>
@@ -77,7 +121,11 @@
                                 <text style="font-size: 14px;">Allow sharkfin to track what game you are currently playing in Roblox.</text>
                             </div>
                             <div style="margin-left: auto; align-content: center;">
+<<<<<<< HEAD
                                 <switch-toggle data-id="experience-tracking"></switch-toggle>
+=======
+                                <text>test</text>
+>>>>>>> c0e5248cae6500d1321aaa3c2280c2a919f7ecd2
                             </div>
                         </div>
 
@@ -87,7 +135,11 @@
                                 <text style="font-size: 14px;">Allow sharkfin to track the location of the server you are playing on.</text>
                             </div>
                             <div style="margin-left: auto; align-content: center;">
+<<<<<<< HEAD
                                 <switch-toggle data-id="server-loc-tracking"></switch-toggle>
+=======
+                                <text>test</text>
+>>>>>>> c0e5248cae6500d1321aaa3c2280c2a919f7ecd2
                             </div>
                         </div>
 
@@ -97,7 +149,11 @@
                                 <text style="font-size: 14px;">Allow sharkfin to track Sent and Received Messages from the game you are currently playing on.</text>
                             </div>
                             <div style="margin-left: auto; align-content: center;">
+<<<<<<< HEAD
                                 <switch-toggle data-id="message-tracking></switch-toggle>
+=======
+                                <text>test</text>
+>>>>>>> c0e5248cae6500d1321aaa3c2280c2a919f7ecd2
                             </div>
                         </div>
 
@@ -107,7 +163,11 @@
                                 <text style="font-size: 14px;">Allow sharkfin to track players Joining and Leaving the game you are currently playing on.</text>
                             </div>
                             <div style="margin-left: auto; align-content: center;">
+<<<<<<< HEAD
                                 <switch-toggle data-id="join-tracking"></switch-toggle>
+=======
+                                <text>test</text>
+>>>>>>> c0e5248cae6500d1321aaa3c2280c2a919f7ecd2
                             </div>
                         </div>
 
@@ -125,7 +185,11 @@
                                 <text style="font-size: 14px;">Enables this feature and Displays the current Roblox Game you are playing.</text>
                             </div>
                             <div style="margin-left: auto; align-content: center;">
+<<<<<<< HEAD
                                 <switch-toggle data-id="discord-rpc"></switch-toggle>
+=======
+                                <text>test</text>
+>>>>>>> c0e5248cae6500d1321aaa3c2280c2a919f7ecd2
                             </div>
                         </div>
 
@@ -135,7 +199,11 @@
                                 <text style="font-size: 14px;">Allow anyone to join your game through your Discord Profile</text>
                             </div>
                             <div style="margin-left: auto; align-content: center;">
+<<<<<<< HEAD
                                 <switch-toggle data-id="rpc-joining"></switch-toggle>
+=======
+                                <text>test</text>
+>>>>>>> c0e5248cae6500d1321aaa3c2280c2a919f7ecd2
                             </div>
                         </div>
 
@@ -145,7 +213,31 @@
                                 <text style="font-size: 14px;">Display the current Roblox Account you are playing as.</text>
                             </div>
                             <div style="margin-left: auto; align-content: center;">
+<<<<<<< HEAD
                                 <switch-toggle data-id="rpc-account"></switch-toggle>
+=======
+                                <text>test</text>
+                            </div>
+                        </div>
+
+                        <div style="display: flex; background-color: #3f85c7; border-radius: 5px; padding: 10px;">
+                            <div>
+                                <text>Display Roblox Account</text><br>
+                                <text style="font-size: 14px;">Display the current Roblox Account you are playing as.</text>
+                            </div>
+                            <div style="margin-left: auto; align-content: center;">
+                                <text>test</text>
+                            </div>
+                        </div>
+
+                        <div style="display: flex; background-color: #3f85c7; border-radius: 5px; padding: 10px;">
+                            <div>
+                                <text>Display Roblox Account</text><br>
+                                <text style="font-size: 14px;">Display the current Roblox Account you are playing as.</text>
+                            </div>
+                            <div style="margin-left: auto; align-content: center;">
+                                <text>test</text>
+>>>>>>> c0e5248cae6500d1321aaa3c2280c2a919f7ecd2
                             </div>
                         </div>
 
@@ -157,7 +249,15 @@
         </div>
     </div>
 
+<<<<<<< HEAD
     <script src="./assets/html/scripts/main.js" type="module"></script>
     <script src="./assets/html/scripts/switch.js" type="module"></script>
+=======
+    <script src="./src/assets/html/scripts/main.js" type="module"></script>
+    <script>
+        // uncomment to disable right click functionality, only for dev.
+        //document.addEventListener("contextmenu", (event) => event.preventDefault());
+    </script>
+>>>>>>> c0e5248cae6500d1321aaa3c2280c2a919f7ecd2
 </body>
 </html>
