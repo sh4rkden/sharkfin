@@ -1,9 +1,8 @@
-import * as App from '../../../../wailsjs/go/main/App';
 
-document.getElementById('close-btn').addEventListener('click', () => {
-    App.CloseWindow();
-});
-
-document.getElementById('minimize-btn').addEventListener('click', () => {
-    App.MinimizeWindow();
-});
+// startup things lol
+setTimeout(() => {
+    document.querySelector('#integrations')?.scrollIntoView({ behavior: 'smooth' });
+}, 2000);
+setTimeout(() => {
+    document.getElementById('sharkfinscreen')?.remove();
+}, 2550);

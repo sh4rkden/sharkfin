@@ -1,3 +1,7 @@
+@font-face {
+    font-family: "Quicksand";
+    src: url("../../fonts/Quicksand.ttf");
+}
 
 html, body {
     margin: 0;
@@ -5,6 +9,7 @@ html, body {
     height: 100vh;
     overflow-x: hidden;
     scroll-behavior: smooth;
+    font-family: "Quicksand";
 }
 
 ::-webkit-scrollbar {
@@ -25,17 +30,27 @@ html, body {
     background: #3a74b8;
 }
 
-@font-face {
-    font-family: "Fredoka";
-    src: url("../../fonts/Fredoka.ttf");
-}
-
 text {
-    font-family: "Fredoka";
     color: white;
 }
 
+/* Minimal modifications to optionContainer */
+optionContainer {
+    display: flex;
+    background-color: #3f85c7;
+    border-radius: 5px;
+    padding: 10px;
+    gap: 5px;
+    will-change: transform;
+    transition: transform 300ms ease;
+    transform: translateZ(0);
+}
 
+optionContainer:hover {
+    transform: scale(1.01) translateZ(0);
+}
+
+/* Minimal modifications to tabButton */
 tabButton {
     background-color: var(--bgcolor);
     border-radius: 5px;
@@ -48,13 +63,16 @@ tabButton {
     padding: 0 3px;
     box-sizing: border-box;
     cursor: pointer;
-
     z-index: 2;
-    transition: width 350ms;
+    /* Use transform hint rather than width for smoother animation */
+    will-change: transform;
+    transition: width 350ms ease, transform 350ms ease;
+    transform: translateZ(0);
 }
 
 tabButton:hover {
     width: 180px;
+    transform: translateZ(0);
 }
 
 tabButton img {
@@ -63,21 +81,27 @@ tabButton img {
     pointer-events: none;
     user-select: none;
     flex: 0 0 auto;
+    will-change: transform;
+    transform: translateZ(0);
 }
 
 tabButton text {
     flex: 1;
     text-align: right;
     opacity: 0;
-    transition: opacity 100ms ease-in; /* Faster fade-out */
+    will-change: opacity;
+    transition: opacity 100ms ease-in;
     padding-right: 8px;
 }
 
 tabButton:hover text {
     opacity: 1;
-    transition: opacity 500ms ease-out 200ms; /* Slower fade-in with delay */
+    transition-delay: 200ms;
+    transition-duration: 500ms;
+    transition-timing-function: ease-out;
 }
 
+/* No changes to .checkBg except adding a GPU hint */
 .checkBg {
     position: relative;
     background-color: gray;
@@ -87,10 +111,10 @@ tabButton:hover text {
 .checkBg::before {
     content: "";
     position: absolute;
-    top: -100%;
-    left: -100%;
-    width: 300%;
-    height: 300%;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
     background: conic-gradient(
         var(--color1) 90deg,
         var(--color2) 90deg 180deg,
@@ -99,19 +123,17 @@ tabButton:hover text {
     );
     background-repeat: repeat;
     background-size: 50px 50px;
-    animation-name: slide;
-    animation-duration: 60s;
-    animation-timing-function: linear;
-    animation-iteration-count: infinite;
-    transform: rotate(30deg);
+    transform: rotate(30deg) translate3d(0, 0, 0);
+    will-change: transform;
+    animation: slide 15s linear infinite;
+    backface-visibility: hidden;
 }
 
 @keyframes slide {
     from {
-        background-position: 0px 0px;
+        transform: rotate(30deg) translate3d(0, 0, 0);
     }
-
     to {
-        background-position: 550px 0px;
+        transform: rotate(30deg) translate3d(300px, 0, 0);
     }
 }

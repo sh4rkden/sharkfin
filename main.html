@@ -2,162 +2,670 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=0.85">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <link rel="stylesheet" href="./assets/html/styles/main.css">
 </head>
 <body>
     <div class="checkBg" style="position: fixed; top: 0; left: 0; --color1: #3b68b1; --color2: #3876b1; width: 100vw; height: 100vh; z-index: -1;"></div>
+    
     <div class="mainWindowScreen" style="max-height: calc(100vh - 24px); height: 100%;">
-        <div class="titleBar" style="--wails-draggable:drag; background-color: #4274c5; position: fixed; top: 0; left: 0; height: 24px; width: 100%; padding: 0 5px; z-index: 2;">
+        <div class="pywebview-drag-region titleBar" style="background-color: #4274c5; position: fixed; top: 0; left: 0; height: 24px; width: 100%; padding: 0 5px; z-index: 2;">
             <div>
-                <img src="./assets/images/sharkfin.png" style="image-rendering: auto; width: 32px; height: 32px; margin-top: 3px; pointer-events: none;">
-                <text id="titleText" style="position: relative; font-size: 16px; color: #ffeed5; top: -17px; pointer-events: none; user-select: none;">sharkfin</text>
+                <img src="./assets/images/sharkfin.webp" style="image-rendering: auto; width: 32px; height: 32px; margin-top: 3px; pointer-events: none;">
+                <text id="titleText" style="position: relative; font-size: 14px; top: -17px; pointer-events: none; user-select: none;">sharkfin</text>
             </div>
 
-            <!-- window control buttons, minimize and close (close is a mini-menu to save, exit, save and exit, save and launch) -->
-            <div style="--wails-draggable:nodrag; position: fixed; top: 5px; right: 5px;">
-                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 3px;">
-                    <tabButton id="minimize-btn" style="--bgcolor: #ffffff;">
-                        <img src="./assets/images/minimize.png">
-                    </tabButton>
-                    <tabButton id="close-btn" style="--bgcolor: #ff0053;">
-                        <img src="./assets/images/close.png">
-                    </tabButton>
+            <div style="position: fixed; top: 4px; right: 5px;">
+                <div style="display: grid; grid-template-columns: 1fr 18px 18px; gap: 5px;">
+                    <text style="font-size: 14px; top: -17px; pointer-events: none; user-select: none;">alpha v1.0.0</text>
+                    <img src="./assets/images/minimize.webp" draggable="false" width="18px" height="auto" onclick="window.pywebview.api.minimizeWindow()">
+                    <img src="./assets/images/close.webp" draggable="false" width="18px" height="auto" onclick="window.pywebview.api.closeWindow()">
                 </div>
             </div>
         </div>
+
         <div class="content" style="display: grid; grid-template-columns: 42px 1fr; margin-top: 24px; width: 100%; height: 100%; z-index: 1;">
             <div class="sidebar" style="box-sizing: border-box; display: flex; flex-direction: column; justify-content: space-between; gap: 3px; padding: 5px; background-color: #4274c5; height: 100%;">
                 <div style="display: flex; flex-direction: column; gap: 3px; margin-top: 10px;">
-                    <tabButton style="--bgcolor: #3f85c7;">
-                        <img src="./assets/images/puzzle.png">
+                    <tabButton style="--bgcolor: #3f85c7;" onclick="document.querySelector('#integrations')?.scrollIntoView({ behavior: 'smooth' })">
+                        <img src="./assets/images/puzzle_pieces.webp" style="scale: 1.15;">
                         <text>Integrations</text>
                     </tabButton>
-                    <tabButton style="--bgcolor: #3f85c7;">
-                        <img src="./assets/images/hardhat.png">
+                    <tabButton style="--bgcolor: #3f85c7;" onclick="document.querySelector('#mods')?.scrollIntoView({ behavior: 'smooth' })">
+                        <img src="./assets/images/hard_hat.webp" style="scale: 1.15;">
                         <text>Mods</text>
                     </tabButton>
-                    <tabButton style="--bgcolor: #3f85c7;">
-                        <img src="./assets/images/flag.png">
-                        <text>FFlags & Presets</text>
+                    <tabButton style="--bgcolor: #3f85c7;" onclick="document.querySelector('#fastflags')?.scrollIntoView({ behavior: 'smooth' })">
+                        <img src="./assets/images/flag.webp" style="scale: 1.15;">
+                        <text>FastFlags</text>
                     </tabButton>
-                    <tabButton style="--bgcolor: #3f85c7;">
-                        <img src="./assets/images/bucket.png">
+                    <tabButton style="--bgcolor: #3f85c7;" onclick="document.querySelector('#customization')?.scrollIntoView({ behavior: 'smooth' })">
+                        <img src="./assets/images/bucket.webp" style="scale: 1.15;">
                         <text>Customization</text>
                     </tabButton>
-                    <tabButton style="--bgcolor: #3f85c7;">
-                        <img src="./assets/images/sharkfin.png">
-                        <text>Deployments</text>
+                    <tabButton style="--bgcolor: #3f85c7;" onclick="document.querySelector('#deployment')?.scrollIntoView({ behavior: 'smooth' })">
+                        <img src="./assets/images/cloudcog.webp" style="scale: 1.15;">
+                        <text>Deployment</text>
                     </tabButton>
                 </div>
                 
                 <div style="display: flex; flex-direction: column; gap: 3px;">
                     <tabButton style="--bgcolor: #3f85c7;">
-                        <img src="./assets/images/sharkfin.png">
+                        <img src="./assets/images/discord_logo.webp">
+                        <text>snarkden</text>
+                    </tabButton>
+
+                    <tabButton style="--bgcolor: #3f85c7;">
+                        <img src="./assets/images/sharkfin.webp">
                         <text>About sharkfin</text>
                     </tabButton>
                 </div>
             </div>
 
-            <div class="content" style="padding: 0 9%; overflow-y: auto; max-height: calc(100vh - 24px);">
-                <div id="integrations" style="margin-top: 32px; margin-bottom: 32px;">
-                    <text style="font-size: 32px;">Integrations</text><br>
-                    <text>Configure additional Integrations to run with Roblox.</text>
-                    
-                    <div style="display: flex; gap: 5px; flex-direction: column; margin-top: 15px;">
+            <div class="content" style="padding: 0 68px; overflow-y: auto; max-height: calc(100vh - 24px);">
+                <!-- Main Screen -->
+                <div id="sharkfinscreen" style="height: calc(100vh - 24px); display: flex; align-items: center; justify-content: center;">
+                    <div style="text-align: center;">
+                        <img src="./assets/images/sharkfin.webp" height="456" width="auto"><br>
+                        <text style="font-size: 64px;">sharkfin</text><br>
+                        <text>by snarkden</text>
+                    </div>
+                </div>
+
+                <!-- Integrations -->
+                <div>
+                    <div id="integrations" style="width: 100%; height: 32px;"></div>
+                    <div style="display: flex;">
                         <div>
-                            <text style="font-size: 22px;">Activity Tracking</text><br>
-                            <text>Configure what you want sharkfin to track from your Roblox Activity.</text><br>
+                            <text style="font-size: 32px;">Integrations</text><br>
+                            <text>Configure additional Integrations to run with Roblox.</text>
+                        </div>
+                        <img src="./assets/images/puzzle_pieces.webp" style="position: relative; width: 60px; height: 60px; scale: 1.65; margin-left: auto;">
+                    </div>
+                    
+                    <div style="display: flex; gap: 5px; flex-direction: column; margin-top: 24px;">
+                        <div>
+                            <text style="font-size: 22px;">Activity Tracking Permissions</text><br>
+                            <text>Configure what you want sharkfin (and it's mods) to track from your Roblox Activity.</text><br>
                             <text style="font-size: 10px;">Some of these features are required by some sharkfin features or sharkfin mods. Disabling some of these options may cause them to not work properly.</text>
                         </div>
-                        <div style="display: flex; background-color: #3f85c7; border-radius: 5px; padding: 10px;">
-                            <div>
+
+                        <optionContainer>
+                            <div style="align-content: center;">
                                 <text>Experiences</text><br>
-                                <text style="font-size: 14px;">Allow sharkfin to track what game you are currently playing in Roblox.</text>
+                                <text style="font-size: 12px;">Allow sharkfin to track what game you are currently playing in Roblox.</text>
                             </div>
                             <div style="margin-left: auto; align-content: center;">
-                                <switch-toggle data-id="experience-tracking"></switch-toggle>
+                                <checkbox-toggle data-id="experience-tracking"></checkbox-toggle>
                             </div>
-                        </div>
+                        </optionContainer>
 
-                        <div style="display: flex; background-color: #3f85c7; border-radius: 5px; padding: 10px;">
-                            <div>
+                        <optionContainer>
+                            <div style="align-content: center;">
                                 <text>Server Location</text><br>
-                                <text style="font-size: 14px;">Allow sharkfin to track the location of the server you are playing on.</text>
+                                <text style="font-size: 12px;">Allow sharkfin to track the location of the server you are playing on.</text>
                             </div>
                             <div style="margin-left: auto; align-content: center;">
-                                <switch-toggle data-id="server-loc-tracking"></switch-toggle>
+                                <checkbox-toggle data-id="server-loc-tracking"></checkbox-toggle>
                             </div>
-                        </div>
+                        </optionContainer>
 
-                        <div style="display: flex; background-color: #3f85c7; border-radius: 5px; padding: 10px;">
-                            <div>
-                                <text>Chat Message Tracking</text><br>
-                                <text style="font-size: 14px;">Allow sharkfin to track Sent and Received Messages from the game you are currently playing on.</text>
+                        <optionContainer>
+                            <div style="align-content: center;">
+                                <text>Chat Message and Player Join Tracking</text><br>
+                                <text style="font-size: 12px;">Allow sharkfin to track Sent and Received Messages and players Joining and Leaving from the game you are currently playing on.</text>
                             </div>
                             <div style="margin-left: auto; align-content: center;">
-                                <switch-toggle data-id="message-tracking></switch-toggle>
+                                <checkbox-toggle data-id="msg-and-player-join-tracking"></checkbox-toggle>
                             </div>
-                        </div>
-
-                        <div style="display: flex; background-color: #3f85c7; border-radius: 5px; padding: 10px;">
-                            <div>
-                                <text>Player Join Tracking</text><br>
-                                <text style="font-size: 14px;">Allow sharkfin to track players Joining and Leaving the game you are currently playing on.</text>
-                            </div>
-                            <div style="margin-left: auto; align-content: center;">
-                                <switch-toggle data-id="join-tracking"></switch-toggle>
-                            </div>
-                        </div>
-
+                        </optionContainer>
                     </div>
 
-                    <div style="display: flex; gap: 5px; flex-direction: column; margin-top: 15px;">
+                    <div style="display: flex; gap: 5px; flex-direction: column; margin-top: 24px;">
                         <div>
                             <text style="font-size: 22px;">Discord Rich Presence</text><br>
                             <text>Display the current Roblox Game you are playing in Discord.</text><br>
                             <text style="font-size: 10px;">This feature requires the Experiences tracking enabled to run properly.</text>
                         </div>
-                        <div style="display: flex; background-color: #3f85c7; border-radius: 5px; padding: 10px;">
-                            <div>
+                        <optionContainer>
+                            <div style="align-content: center;">
                                 <text>Discord RPC</text><br>
-                                <text style="font-size: 14px;">Enables this feature and Displays the current Roblox Game you are playing.</text>
+                                <text style="font-size: 12px;">Enables this feature and Displays the current Roblox Game you are playing.</text>
                             </div>
                             <div style="margin-left: auto; align-content: center;">
-                                <switch-toggle data-id="discord-rpc"></switch-toggle>
+                                <checkbox-toggle data-id="discord-rpc"></checkbox-toggle>
                             </div>
-                        </div>
+                        </optionContainer>
 
-                        <div style="display: flex; background-color: #3f85c7; border-radius: 5px; padding: 10px;">
-                            <div>
-                                <text>Allow Joining</text><br>
-                                <text style="font-size: 14px;">Allow anyone to join your game through your Discord Profile</text>
+                        <optionContainer>
+                            <div style="align-content: center;">
+                                <text>Allow RPC Joining</text><br>
+                                <text style="font-size: 12px;">Allow anyone to join your game through your Discord Profile</text>
                             </div>
                             <div style="margin-left: auto; align-content: center;">
-                                <switch-toggle data-id="rpc-joining"></switch-toggle>
+                                <checkbox-toggle data-id="rpc-joining"></checkbox-toggle>
                             </div>
-                        </div>
+                        </optionContainer>
 
-                        <div style="display: flex; background-color: #3f85c7; border-radius: 5px; padding: 10px;">
-                            <div>
+                        <optionContainer>
+                            <div style="align-content: center;">
                                 <text>Display Roblox Account</text><br>
-                                <text style="font-size: 14px;">Display the current Roblox Account you are playing as.</text>
+                                <text style="font-size: 12px;">Display the current Roblox Account you are playing as.</text>
                             </div>
                             <div style="margin-left: auto; align-content: center;">
-                                <switch-toggle data-id="rpc-account"></switch-toggle>
+                                <checkbox-toggle data-id="rpc-account"></checkbox-toggle>
                             </div>
-                        </div>
-
+                        </optionContainer>
                     </div>
 
+                    <div style="display: flex; gap: 5px; flex-direction: column; margin-top: 24px;">
+                        <div>
+                            <text style="font-size: 22px;">Program Autolaunch</text><br>
+                            <text>Run other programs to launch with Roblox automatically.</text><br>
+                        </div>
+                        <optionContainer>
+                            <div style="align-content: center;">
+                                <text>Feature not Available</text><br>
+                                <text style="font-size: 12px;">This feature will be available soon!</text>
+                            </div>
+                        </optionContainer>
+                    </div>
                     
                 </div>
+
+                <!-- Mods -->
+                <div>
+                    <div id="mods" style="width: 100%; height: 32px;"></div>
+                    <div style="display: flex;">
+                        <div>
+                            <text style="font-size: 32px;">Mods</text><br>
+                            <text>Configure Roblox Client and sharkfin mods.</text>
+                        </div>
+                        <img src="./assets/images/hard_hat.webp" style="position: relative; width: 60px; height: 60px; scale: 1.65; margin-left: auto;">
+                    </div>
+
+                    <div style="display: flex; gap: 5px; flex-direction: column; margin-top: 24px;">
+                        <div>
+                            <text style="font-size: 22px;">sharkfin Modding</text><br>
+                            <text>Configure sharkfin mods.</text>
+                        </div>
+
+                        <optionContainer>
+                            <div style="align-content: center;">
+                                <text>Modding</text><br>
+                                <text style="font-size: 12px;">Enable the sharkfin modding server and sharkfin mods when the Roblox Client loads.</text><br>
+                                <text style="font-size: 10px;">Starts up the sharkfin modding server and sharkfin mods.</text>
+                            </div>
+                            <div style="margin-left: auto; align-content: center;">
+                                <checkbox-toggle data-id="experience-tracking"></checkbox-toggle>
+                            </div>
+                        </optionContainer>
+
+                        <optionContainer>
+                            <div style="align-content: center;">
+                                <text>Always Grant Cookie Access</text><br>
+                                <text style="font-size: 12px;">Authorize all sharkfin Mods to use your Roblox Cookie to make Authorized API Calls to the Roblox API. (selected APIs only)</text><br>
+                                <text style="color: #ff9900; font-size: 10px;">This feature should only be enabled when necessary.</text>
+                            </div>
+                            <div style="margin-left: auto; align-content: center;">
+                                <checkbox-toggle data-id="experience-tracking"></checkbox-toggle>
+                            </div>
+                        </optionContainer>
+                    </div>
+
+                    <div style="display: flex; gap: 5px; flex-direction: column; margin-top: 24px;">
+                        <div>
+                            <text style="font-size: 22px;">Roblox Client Modding</text><br>
+                            <text>Configure and apply Roblox file mods.</text>
+                        </div>
+
+                        <optionContainer>
+                            <div style="align-content: center;">
+                                <text>Custom Font</text><br>
+                                <text style="font-size: 12px;">Change the default font of the Roblox Client.</text>
+                            </div>
+                            <div style="margin-left: auto; align-content: center;">
+                                <text style="font-size: 24px;">></text>
+                            </div>
+                        </optionContainer>
+
+                        <optionContainer>
+                            <div style="align-content: center;">
+                                <text>Mouse Cursor</text><br>
+                                <text style="font-size: 12px;">Change the default cursor of the Roblox Client.</text>
+                            </div>
+                            <div style="margin-left: auto; align-content: center;">
+                                <text style="font-size: 24px;">></text>
+                            </div>
+                        </optionContainer>
+                    </div>
+                </div>
+
+                <!-- FastFlags -->
+                <div>
+                    <div id="fastflags" style="width: 100%; height: 32px;"></div>
+                    <div style="display: flex;">
+                        <div>
+                            <text style="font-size: 32px;">FastFlags</text><br>
+                            <text>Control how specific Roblox engine parameters and features are configured.</text>
+                        </div>
+                        <img src="./assets/images/flag.webp" style="position: relative; width: 60px; height: 60px; scale: 1.65; margin-left: auto;">
+                    </div>
+
+                    <div style="display: flex; gap: 5px; flex-direction: column; margin-top: 24px;">
+                        <optionContainer>
+                            <div style="align-content: center;">
+                                <text>Fast Flags</text><br>
+                                <text style="font-size: 12px;">Disabling this feature will prevent sharkfin from applying the FastFlags to the Roblox Client.</text>
+                            </div>
+                            <div style="margin-left: auto; align-content: center;">
+                                <checkbox-toggle data-id="experience-tracking"></checkbox-toggle>
+                            </div>
+                        </optionContainer>
+
+                        <optionContainer>
+                            <div style="align-content: center;">
+                                <text>Fast Flag Editor</text><br>
+                                <text style="font-size: 12px;">Manage your own Fast Flags.</text>
+                            </div>
+                            <div style="margin-left: auto; align-content: center;">
+                                <text style="font-size: 24px;">></text>
+                            </div>
+                        </optionContainer>
+                    </div>
+
+                    <div style="display: flex; gap: 5px; flex-direction: column; margin-top: 24px;">
+                        <div>
+                            <text style="font-size: 22px;">FastFlag Toggles</text><br>
+                            <text>FastFlag toggles curated by the snarkden team.</text>
+                        </div>
+                        
+                        <optionContainer>
+                            <div style="align-content: center;">
+                                <text>optiontitle</text><br>
+                                <text style="font-size: 12px;">optiondescription</text>
+                            </div>
+                            <div style="margin-left: auto; align-content: center;">
+                                <checkbox-toggle data-id="optionid"></checkbox-toggle>
+                            </div>
+                        </optionContainer>
+
+                        <optionContainer>
+                            <div style="align-content: center;">
+                                <text>Disable Telemetry</text><br>
+                                <text style="font-size: 12px;">Disables Roblox Telemetry.</text>
+                            </div>
+                            <div style="margin-left: auto; align-content: center;">
+                                <checkbox-toggle data-id="optionid"></checkbox-toggle>
+                            </div>
+                        </optionContainer>
+
+                        <optionContainer>
+                            <div style="align-content: center;">
+                                <text>Disable Toast Notifications</text><br>
+                                <text style="font-size: 12px;">Disables Toast Notifications in Roblox. Basically a Do Not Disturb option.</text>
+                            </div>
+                            <div style="margin-left: auto; align-content: center;">
+                                <checkbox-toggle data-id="optionid"></checkbox-toggle>
+                            </div>
+                        </optionContainer>
+
+                        <optionContainer>
+                            <div style="align-content: center;">
+                                <text>Disable In-Game Purchases</text><br>
+                                <text style="font-size: 12px;">Disables In-Game Purchases. Good option for heavy spenders!</text>
+                            </div>
+                            <div style="margin-left: auto; align-content: center;">
+                                <checkbox-toggle data-id="optionid"></checkbox-toggle>
+                            </div>
+                        </optionContainer>
+
+                        <optionContainer>
+                            <div style="align-content: center;">
+                                <text>Disable Beta Translation System Message</text><br>
+                                <text style="font-size: 12px;">Disables the "Roblox automatically translates supported languages in chat." system message on join.</text>
+                            </div>
+                            <div style="margin-left: auto; align-content: center;">
+                                <checkbox-toggle data-id="optionid"></checkbox-toggle>
+                            </div>
+                        </optionContainer>
+
+                        <div style="margin-top: 14px;">
+                            <text style="font-size: 22px;">FastFlag Presets</text><br>
+                            <text>FastFlag presets curated by the snarkden team.</text>
+                        </div>
+
+                        <optionContainer>
+                            <div style="align-content: center;">
+                                <text>No Presets... yet.</text><br>
+                                <text style="font-size: 12px;">A fastflag preset will be made soon!</text>
+                            </div>
+                        </optionContainer>
+
+                        <div style="margin-top: 14px;">
+                            <text style="font-size: 22px;">Rendering and Graphics</text>
+                        </div>
+
+                        <optionContainer>
+                            <div style="align-content: center;">
+                                <text>MSAA Quality</text><br>
+                                <text style="font-size: 12px;">Changes the Multisample Anti-Aliasing Quality</text>
+                            </div>
+                            <div style="margin-left: auto; align-content: center;">
+                                <text style="font-size: 24px;">></text>
+                            </div>
+                        </optionContainer>
+
+                        <optionContainer>
+                            <div style="align-content: center;">
+                                <text>Texture Quality</text>
+                            </div>
+                            <div style="margin-left: auto; align-content: center;">
+                                <text style="font-size: 24px;">></text>
+                            </div>
+                        </optionContainer>
+
+                        <optionContainer>
+                            <div style="align-content: center;">
+                                <text>Framerate Limit</text><br>
+                                <text style="font-size: 12px;">Change the framerate limit to a custom limit. Set to 0 to use Roblox's natime framerate unlocker.</text>
+                            </div>
+                            <div style="margin-left: auto; align-content: center;">
+                                <text style="font-size: 24px;">></text>
+                            </div>
+                        </optionContainer>
+
+                        <optionContainer>
+                            <div style="align-content: center;">
+                                <text>Lighting Technology</text><br>
+                                <text style="font-size: 12px;">This option will force all Roblox Games to use your Preferred Lighting Technology.</text>
+                            </div>
+                            <div style="margin-left: auto; align-content: center;">
+                                <text style="font-size: 24px;">></text>
+                            </div>
+                        </optionContainer>
+
+                        <optionContainer>
+                            <div style="align-content: center;">
+                                <text>Preserver Rendering Quality with Display Scaling</text><br>
+                                <text style="font-size: 12px;">Roblox reduces your rendering quality depending on how your display is scaled in Windows.</text>
+                            </div>
+                            <div style="margin-left: auto; align-content: center;">
+                                <checkbox-toggle data-id="experience-tracking"></checkbox-toggle>
+                            </div>
+                        </optionContainer>
+
+                        <optionContainer>
+                            <div style="align-content: center;">
+                                <text>Disable Player Shadows</text>
+                            </div>
+                            <div style="margin-left: auto; align-content: center;">
+                                <checkbox-toggle data-id="experience-tracking"></checkbox-toggle>
+                            </div>
+                        </optionContainer>
+
+                        <optionContainer>
+                            <div style="align-content: center;">
+                                <text>Disable PostFX</text>
+                            </div>
+                            <div style="margin-left: auto; align-content: center;">
+                                <checkbox-toggle data-id="experience-tracking"></checkbox-toggle>
+                            </div>
+                        </optionContainer>
+
+                        <optionContainer>
+                            <div style="align-content: center;">
+                                <text>Disable Terrain Textures</text>
+                            </div>
+                            <div style="margin-left: auto; align-content: center;">
+                                <checkbox-toggle data-id="experience-tracking"></checkbox-toggle>
+                            </div>
+                        </optionContainer>
+
+                        <div style="margin-top: 14px;">
+                            <text style="font-size: 22px;">User Interface and Layout</text>
+                        </div>
+
+                        <optionContainer>
+                            <div style="align-content: center;">
+                                <text>Font Size</text><br>
+                                <text style="font-size: 12px;">Default: 1. Adjust the font of Roblox (or your custom font)</text>
+                            </div>
+                            <div style="margin-left: auto; align-content: center;">
+                                <text style="font-size: 24px;">></text>
+                            </div>
+                        </optionContainer>
+
+                        <optionContainer>
+                            <div style="align-content: center;">
+                                <text>GUI Hiding</text><br>
+                                <text style="font-size: 12px;">Input the ID of a group that you're in.</text>
+                            </div>
+                            <div style="margin-left: auto; align-content: center;">
+                                <text style="font-size: 24px;">></text>
+                            </div>
+                        </optionContainer>
+
+                        <optionContainer>
+                            <div style="align-content: center;">
+                                <text>Disable Fullscreen Title Bar</text>
+                            </div>
+                            <div style="margin-left: auto; align-content: center;">
+                                <checkbox-toggle data-id="experience-tracking"></checkbox-toggle>
+                            </div>
+                        </optionContainer>
+                        
+                        <optionContainer>
+                            <div style="align-content: center;">
+                                <text>Chrome UI</text><br>
+                                <text style="font-size: 14px;">Disable to use the old Roblox Top Bar.</text>
+                            </div>
+                            <div style="margin-left: auto; align-content: center;">
+                                <checkbox-toggle data-id="experience-tracking"></checkbox-toggle>
+                            </div>
+                        </optionContainer>
+
+                        <div style="margin-top: 14px;">
+                            <text style="font-size: 22px;">Roblox Menu Options</text><br>
+                            <text style="font-size: 14px;">Remove some options from the Roblox Menu.</text>
+                        </div>
+
+                        <optionContainer>
+                            <div style="align-content: center;">
+                                <text>VR Toggle</text>
+                            </div>
+                            <div style="margin-left: auto; align-content: center;">
+                                <checkbox-toggle data-id="experience-tracking"></checkbox-toggle>
+                            </div>
+                        </optionContainer>
+
+                        <optionContainer>
+                            <div style="align-content: center;">
+                                <text>Feedback Button</text>
+                            </div>
+                            <div style="margin-left: auto; align-content: center;">
+                                <checkbox-toggle data-id="experience-tracking"></checkbox-toggle>
+                            </div>
+                        </optionContainer>
+
+                        <optionContainer>
+                            <div style="align-content: center;">
+                                <text>Language Selector</text>
+                            </div>
+                            <div style="margin-left: auto; align-content: center;">
+                                <checkbox-toggle data-id="experience-tracking"></checkbox-toggle>
+                            </div>
+                        </optionContainer>
+
+                        <optionContainer>
+                            <div style="align-content: center;">
+                                <text>Framerate Cap</text>
+                            </div>
+                            <div style="margin-left: auto; align-content: center;">
+                                <checkbox-toggle data-id="experience-tracking"></checkbox-toggle>
+                            </div>
+                        </optionContainer>
+
+                        <optionContainer>
+                            <div style="align-content: center;">
+                                <text>Chat Translation</text>
+                            </div>
+                            <div style="margin-left: auto; align-content: center;">
+                                <checkbox-toggle data-id="experience-tracking"></checkbox-toggle>
+                            </div>
+                        </optionContainer>
+
+                        <div style="margin-top: 14px;">
+                            <text style="font-size: 22px;">Debugging</text>
+                        </div>
+
+                        <optionContainer>
+                            <div style="align-content: center;">
+                                <text>Flag State</text><br>
+                                <text style="font-size: 12px;">Show the values of the list of flags during runtime.</text>
+                            </div>
+                            <div style="margin-left: auto; align-content: center;">
+                                <text style="font-size: 24px;">></text>
+                            </div>
+                        </optionContainer>
+
+                        <optionContainer>
+                            <div style="align-content: center;">
+                                <text>Show All Flag State</text><br>
+                                <text style="font-size: 12px;">Show all of the values of the list of flags you currently have during runtime.</text>
+                            </div>
+                            <div style="margin-left: auto; align-content: center;">
+                                <checkbox-toggle data-id="experience-tracking"></checkbox-toggle>
+                            </div>
+                        </optionContainer>
+
+                        <optionContainer>
+                            <div style="align-content: center;">
+                                <text>Ping Breakdown</text><br>
+                                <text style="font-size: 12px;">Sends detailed ping information to the Roblox Console.</text>
+                            </div>
+                            <div style="margin-left: auto; align-content: center;">
+                                <checkbox-toggle data-id="experience-tracking"></checkbox-toggle>
+                            </div>
+                        </optionContainer>
+                    </div>
+                </div>
+
+                <!-- Customization -->
+                <div>
+                    <div id="customization" style="width: 100%; height: 32px;"></div>
+                    <div style="display: flex;">
+                        <div>
+                            <text style="font-size: 32px;">Customization</text><br>
+                            <text>Configure how sharkfin and the Roblox Client should look.</text>
+                        </div>
+                        <img src="./assets/images/bucket.webp" style="position: relative; width: 60px; height: 60px; scale: 1.65; margin-left: auto;">
+                    </div>
+
+                    <div style="display: flex; gap: 5px; flex-direction: column; margin-top: 24px;">
+                        <div>
+                            <text style="font-size: 22px;">Bootstrapper</text><br>
+                            <text style="font-size: 12px;">Change how the Bootstrapper should look like.</text><br>
+                        </div>
+    
+                        <optionContainer>
+                            <div style="align-content: center;">
+                                <text>Open Folder</text><br>
+                                <text style="font-size: 12px;">Open the folder where the Bootstrapper source files is Stored.</text>
+                            </div>
+                            <div style="margin-left: auto; align-content: center;">
+                                <text style="font-size: 24px;">></text>
+                            </div>
+                        </optionContainer>
+                    </div>
+
+                    <div style="display: flex; gap: 5px; flex-direction: column; margin-top: 24px;">
+                        <div>
+                            <text style="font-size: 22px;">Roblox Client</text><br>
+                            <text style="font-size: 12px;">Change how the Roblox Client should look like.</text><br>
+                        </div>
+    
+                        <optionContainer>
+                            <div style="align-content: center;">
+                                <text>Theme</text><br>
+                                <text style="font-size: 12px;">Change the full theme of the Roblox Client.</text>
+                            </div>
+                            <div style="margin-left: auto; align-content: center;">
+                                <text style="font-size: 24px;">></text>
+                            </div>
+                        </optionContainer>
+
+                        <optionContainer>
+                            <div style="align-content: center;">
+                                <text>Font</text><br>
+                                <text style="font-size: 12px;">Change the used font of the Roblox Client.</text>
+                            </div>
+                            <div style="margin-left: auto; align-content: center;">
+                                <text style="font-size: 24px;">></text>
+                            </div>
+                        </optionContainer>
+                    </div>
+                </div>
+
+                <!-- Deployment -->
+                <div>
+                    <div id="deployment" style="width: 100%; height: 24px;"></div>
+                    <div style="display: flex;">
+                        <div>
+                            <text style="font-size: 32px;">Deployment</text><br>
+                            <text>Configure deployment and installation settings for Roblox & sharkfin.</text>
+                        </div>
+                        <img src="./assets/images/cloudcog.webp" style="position: relative; width: 60px; height: 60px; scale: 1.65; margin-left: auto;">
+                    </div>
+
+                    <div style="display: flex; gap: 5px; flex-direction: column; margin-top: 24px;">
+                        <div>
+                            <text style="font-size: 22px;">sharkfin</text>
+                        </div>
+
+                        <optionContainer>
+                            <div style="align-content: center;">
+                                <text>Auto-update sharkfin</text><br>
+                                <text style="font-size: 12px;">sharkfin will automatically check for new updates of sharkfin.</text>
+                            </div>
+                            <div style="margin-left: auto; align-content: center;">
+                                <checkbox-toggle data-id="experience-tracking"></checkbox-toggle>
+                            </div>
+                        </optionContainer>
+                    </div>
+
+                    <div style="display: flex; gap: 5px; flex-direction: column; margin-top: 24px;">
+                        <div>
+                            <text style="font-size: 22px;">Roblox</text>
+                        </div>
+                        
+                        <optionContainer>
+                            <div style="align-content: center;">
+                                <text>Auto-update Roblox</text><br>
+                                <text style="font-size: 12px;">sharkfin will automatically check for new updates and downloads a new version of Roblox</text>
+                            </div>
+                            <div style="margin-left: auto; align-content: center;">
+                                <checkbox-toggle data-id="experience-tracking"></checkbox-toggle>
+                            </div>
+                        </optionContainer>
+
+                        <optionContainer>
+                            <div style="align-content: center;">
+                                <text>Force Roblox Reinstall</text><br>
+                                <text style="font-size: 12px;">Reinstall the Roblox Client.</text>
+                            </div>
+                            <div style="margin-left: auto; align-content: center;">
+                                <text style="font-size: 24px;">></text>
+                            </div>
+                        </optionContainer>
+                    </div>
+                </div>
+
+                <div style="width: 100%; height: 64px;"></div>
             </div>
         </div>
     </div>
 
-    <script src="./assets/html/scripts/main.js" type="module"></script>
-    <script src="./assets/html/scripts/switch.js" type="module"></script>
+    <script src="./assets/html/scripts/main.js"></script>
+    <script src="./assets/html/scripts/checkbox.js"></script>
 </body>
 </html>
