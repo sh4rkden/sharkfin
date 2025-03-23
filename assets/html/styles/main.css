@@ -34,7 +34,6 @@ text {
     color: white;
 }
 
-/* Minimal modifications to optionContainer */
 optionContainer {
     display: flex;
     background-color: #3f85c7;
@@ -50,7 +49,6 @@ optionContainer:hover {
     transform: scale(1.01) translateZ(0);
 }
 
-/* Minimal modifications to tabButton */
 tabButton {
     background-color: var(--bgcolor);
     border-radius: 5px;
@@ -64,7 +62,6 @@ tabButton {
     box-sizing: border-box;
     cursor: pointer;
     z-index: 2;
-    /* Use transform hint rather than width for smoother animation */
     will-change: transform;
     transition: width 350ms ease, transform 350ms ease;
     transform: translateZ(0);
@@ -101,7 +98,6 @@ tabButton:hover text {
     transition-timing-function: ease-out;
 }
 
-/* No changes to .checkBg except adding a GPU hint */
 .checkBg {
     position: relative;
     background-color: gray;
