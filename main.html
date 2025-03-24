@@ -15,10 +15,11 @@
             </div>
 
             <div style="position: fixed; top: 4px; right: 5px;">
-                <div style="display: grid; grid-template-columns: 1fr 18px 18px; gap: 5px;">
+                <div style="display: grid; grid-template-columns: 1fr 18px 18px 18px; gap: 5px;">
                     <text style="font-size: 14px; top: -17px; pointer-events: none; user-select: none;">alpha v1.0.0</text>
                     <img src="./assets/images/minimize.webp" draggable="false" width="18px" height="auto" onclick="window.pywebview.api.minimizeWindow()">
                     <img src="./assets/images/close.webp" draggable="false" width="18px" height="auto" onclick="window.pywebview.api.closeWindow()">
+                    <img src="./assets/images/start.webp" draggable="false" width="18px" height="auto">
                 </div>
             </div>
         </div>
@@ -225,7 +226,7 @@
 
                         <optionContainer>
                             <div style="align-content: center;">
-                                <text>Custom Font</text><br>
+                                <text>Font</text><br>
                                 <text style="font-size: 12px;">Change the default font of the Roblox Client.</text>
                             </div>
                             <div style="margin-left: auto; align-content: center;">
@@ -240,6 +241,36 @@
                             </div>
                             <div style="margin-left: auto; align-content: center;">
                                 <text style="font-size: 24px;">></text>
+                            </div>
+                        </optionContainer>
+
+                        <optionContainer>
+                            <div style="align-content: center;">
+                                <text>Use Old Death Sound</text><br>
+                                <text style="font-size: 12px;">Revert to the old "oof" death sound from Roblox.</text>
+                            </div>
+                            <div style="margin-left: auto; align-content: center;">
+                                <checkbox-toggle data-id="modding-old-death-sound"></checkbox-toggle>
+                            </div>
+                        </optionContainer>
+
+                        <optionContainer>
+                            <div style="align-content: center;">
+                                <text>Use Old Avatar Editor Background</text><br>
+                                <text style="font-size: 12px;">Revert to the old Avatar Editor Background used prior to 2020.</text>
+                            </div>
+                            <div style="margin-left: auto; align-content: center;">
+                                <checkbox-toggle data-id="modding-old-avatar-editor-background"></checkbox-toggle>
+                            </div>
+                        </optionContainer>
+                        
+                        <optionContainer>
+                            <div style="align-content: center;">
+                                <text>Use Old Character Sounds</text><br>
+                                <text style="font-size: 12px;">Revert to the old Character Sounds used prior to 2014.</text>
+                            </div>
+                            <div style="margin-left: auto; align-content: center;">
+                                <checkbox-toggle data-id="modding-old-character-sounds"></checkbox-toggle>
                             </div>
                         </optionContainer>
                     </div>
@@ -270,7 +301,7 @@
                         <optionContainer>
                             <div style="align-content: center;">
                                 <text>FastFlag Editor</text><br>
-                                <text style="font-size: 12px;">Manage your own Fast Flags.</text>
+                                <text style="font-size: 12px;">Configure your own FastFlags with the FastFlag Editor.</text>
                             </div>
                             <div style="margin-left: auto; align-content: center;">
                                 <text style="font-size: 24px;">></text>
@@ -280,7 +311,7 @@
                         <optionContainer>
                             <div style="align-content: center;">
                                 <text>Respect User FastFlags</text><br>
-                                <text style="font-size: 12px;">Enabling this feature makes sure that sharkfin does not override your current FastFlags settings.</text>
+                                <text style="font-size: 12px;">Enabling this feature makes sure that sharkfin does not override your current existing FastFlags settings.</text>
                             </div>
                             <div style="margin-left: auto; align-content: center;">
                                 <checkbox-toggle data-id="fflag-respect-flags"></checkbox-toggle>
@@ -352,6 +383,26 @@
                         <div style="margin-top: 14px;">
                             <text style="font-size: 22px;">Rendering and Graphics</text>
                         </div>
+
+                        <optionContainer>
+                            <div style="align-content: center;">
+                                <text>Preferred GPU</text><br>
+                                <text style="font-size: 12px;">Select the GPU that Roblox will use for Rendering.</text>
+                            </div>
+                            <div style="margin-left: auto; align-content: center;">
+                                <text style="font-size: 24px;">></text>
+                            </div>
+                        </optionContainer>
+
+                        <optionContainer>
+                            <div style="align-content: center;">
+                                <text>Rendering Mode</text><br>
+                                <text style="font-size: 12px;">Select the Renderer that Roblox will use.</text>
+                            </div>
+                            <div style="margin-left: auto; align-content: center;">
+                                <text style="font-size: 24px;">></text>
+                            </div>
+                        </optionContainer>
 
                         <optionContainer>
                             <div style="align-content: center;">

@@ -67,6 +67,7 @@ checkboxTemplate.innerHTML = `
 `;
 
 // Helper function to wait for the pywebview API to be available
+// because if this doesnt exist then we're dunzo!! and the values wont set properly.
 async function waitForPyWebView() {
     while (!window.pywebview || !window.pywebview.api || typeof window.pywebview.api.configureSetting !== 'function') {
         await new Promise(resolve => setTimeout(resolve, 50));
@@ -153,7 +154,6 @@ class CheckboxElement extends HTMLElement {
 }
 
 customElements.define('checkbox-toggle', CheckboxElement);
-
 
 function toggleCheckbox(dataId, value) {
     const el = document.querySelector(`checkbox-toggle[data-id="${dataId}"]`);
