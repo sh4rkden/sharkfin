@@ -34,7 +34,7 @@ text {
     color: white;
 }
 
-optionContainer {
+uiOption {
     display: flex;
     background-color: #3f85c7;
     border-radius: 5px;
@@ -45,8 +45,27 @@ optionContainer {
     transform: translateZ(0);
 }
 
-optionContainer:hover {
+uiOption:hover {
     transform: scale(1.01) translateZ(0);
+}
+
+uiInteractable {
+    display: flex;
+    background-color: #3f85c7;
+    border-radius: 5px;
+    padding: 10px;
+    gap: 5px;
+    will-change: transform;
+    transition: transform 300ms ease;
+    transform: translateZ(0);
+}
+
+uiInteractable:hover {
+    transform: scale(1.01) translateZ(0);
+}
+
+uiInteractable:active {
+    transform: scale(0.98) translateZ(0);
 }
 
 tabButton {

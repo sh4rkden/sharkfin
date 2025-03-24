@@ -8,8 +8,8 @@ from httpx import Client, HTTPError, Timeout
 host_path = "https://setup-cfly.rbxcdn.com"
 
 WINDOWSPLAYER = {
-    "clientVersionURL": "https://clientsettingscdn.roblox.com/v2/client-version/WindowsPlayer",
-    "outputDir": "RobloxPlayer",
+    "clientVersionURL": "https://clientsettings.roblox.com/v2/client-version/WindowsPlayer",
+    "outputDir": "./Roblox/Player",
     "extractionPaths": {
         "RobloxApp.zip": "",
         "redist.zip": "",
@@ -38,8 +38,8 @@ WINDOWSPLAYER = {
 
 # TODO: Fix the error that it returns when attempting to launch Roblox Studio.
 WINDOWSSTUDIO64 = {
-    "clientVersionURL": "https://clientsettingscdn.roblox.com/v2/client-version/WindowsStudio64",
-    "outputDir": "RobloxStudio",
+    "clientVersionURL": "https://clientsettings.roblox.com/v2/client-version/WindowsStudio64",
+    "outputDir": "./Roblox/Studio",
     "extractionPaths": {
         "RobloxStudio.zip": "",
         "RibbonConfig.zip": "RibbonConfig/",
@@ -77,15 +77,11 @@ WINDOWSSTUDIO64 = {
     },
 }
 
-
-# ? allows support to download the Roblox Player or Roblox Studio (err in attmp. launch)
-def download(config):
-    # ? 120 second timeout to allow installation from larger files and degraded connetion i guess
+def download(config, channel=None):
     timeout = Timeout(120)
-
     with Client(timeout=timeout) as client:
 
-        def download(url, retries=2, delay=3):
+        def fetch(url, retries=2, delay=3):
             for attempt in range(retries + 1):
                 try:
                     resp = client.get(url)
@@ -97,77 +93,81 @@ def download(config):
                     else:
                         raise e
 
-        resp = download(config["clientVersionURL"])
+        if channel is None:
+            resp = fetch(config["clientVersionURL"])
+        else:
+            resp = fetch(config["clientVersionURL"] + f"/channel/{channel}")
+            
         version = resp.json().get("version")
         client_version_upload = resp.json().get("clientVersionUpload")
-        print("version:", version)
-        print("ClientVersionUpload:", client_version_upload)
-
-        manifest_url = f"{host_path}/{client_version_upload}-rbxPkgManifest.txt"
-        manifest_text = download(manifest_url).text
-        pkg_manifest = [
-            line.strip() for line in manifest_text.splitlines() if line.strip()
-        ]
-
-        if not pkg_manifest or pkg_manifest[0] != "v0":
-            print("Unexpected manifest format.")
-            return
-
-        expected = (
-            "RobloxApp.zip"
-            if config["outputDir"] == "RobloxPlayer"
-            else "RobloxStudio.zip"
-        )
-        if expected not in pkg_manifest:
-            print(f"Manifest missing expected package: {expected}")
-            return
+        yield 0, f"version: {version}"
+        yield 0, f"ClientVersionUpload: {client_version_upload}"
 
         output_dir = config["outputDir"]
         makedirs(output_dir, exist_ok=True)
+        
         with open(path.join(output_dir, "AppSettings.xml"), "w", encoding="utf-8") as f:
             f.write(
-                """
-                <?xml version="1.0" encoding="UTF-8"?>
-                <Settings>
-                    <ContentFolder>content</ContentFolder>
-                    <BaseUrl>http://www.roblox.com</BaseUrl>
-                </Settings>
-                """
+                """<?xml version="1.0" encoding="UTF-8"?>
+<Settings>
+    <ContentFolder>content</ContentFolder>
+    <BaseUrl>http://www.roblox.com</BaseUrl>
+</Settings>"""
             )
-        print("Wrote AppSettings.xml")
+        yield 5, "Wrote AppSettings.xml"
+
+        manifest_url = f"{host_path}/{client_version_upload}-rbxPkgManifest.txt"
+        manifest_text = fetch(manifest_url).text
+        pkg_manifest = [line.strip() for line in manifest_text.splitlines() if line.strip()]
+
+        if not pkg_manifest or pkg_manifest[0] != "v0":
+            yield 100, "Unexpected manifest format."
+            return
+
+        total_packages = sum(1 for pkg in pkg_manifest[1:] if pkg.endswith(".zip"))
+        processed_packages = 0
 
         for pkg in pkg_manifest[1:]:
             if not pkg.endswith(".zip"):
                 continue
             pkg_url = f"{host_path}/{client_version_upload}-{pkg}"
+            yield min(100, int((processed_packages / total_packages) * 100)), f"Downloading {pkg}..."
             try:
-                zip_data = download(pkg_url).content
+                zip_data = fetch(pkg_url).content
             except Exception as e:
-                print(f"Failed to download {pkg}: {e}")
+                yield min(100, int((processed_packages / total_packages) * 100)), f"Failed to download {pkg}: {e}"
+                processed_packages += 1
                 continue
 
             extract_subdir = config["extractionPaths"].get(pkg, "")
-            target_folder = (
-                path.join(output_dir, extract_subdir) if extract_subdir else output_dir
-            )
+            target_folder = path.join(output_dir, extract_subdir) if extract_subdir else output_dir
             makedirs(target_folder, exist_ok=True)
 
             try:
                 with ZipFile(BytesIO(zip_data)) as z:
+                    total_files = len(z.infolist()) or 1
+                    extracted_files = 0
                     for member in z.infolist():
                         if member.is_dir():
                             continue
-                        target_path = path.join(
-                            target_folder, member.filename.replace("\\", "/")
-                        )
+                        target_path = path.join(target_folder, member.filename.replace("\\", "/"))
                         makedirs(path.dirname(target_path), exist_ok=True)
-                        with (
-                            z.open(member) as source,
-                            open(target_path, "wb") as target,
-                        ):
+                        with z.open(member) as source, open(target_path, "wb") as target:
                             target.write(source.read())
-                print(f"Extracted {pkg} to {target_folder}")
+                        extracted_files += 1
+                        progress = int(((processed_packages + extracted_files / total_files) / total_packages) * 100)
+                        yield progress, f"Extracting {member.filename} from {pkg}"
+                processed_packages += 1
+                #yield min(100, int((processed_packages / total_packages) * 100)), f"Extracted {pkg} to {target_folder}"
             except Exception as e:
-                print(f"Failed to extract {pkg}: {e}")
+                yield min(100, int((processed_packages / total_packages) * 100)), f"Failed to extract {pkg}: {e}"
+                processed_packages += 1
+        
+        with open(path.join(output_dir, "sf-version.txt"), "w") as file:
+            file.write(f"{version}|{client_version_upload}")
+        yield 100, "Download complete."
 
-    return version, client_version_upload
+
+if __name__ == "__main__": # testing
+    for x in download(WINDOWSPLAYER):
+        print(x)
