@@ -31,12 +31,13 @@ if __name__ == "__main__":
         title="sharkfin",
         url="./main.html",
         
-        # because frameless width and height isnt correct, we fix it.
+        #? because frameless width and height isnt correct when frameless is true, we fix it.
         width=1000 + 16, height=800 + 39,
         frameless=True,
         easy_drag=True,
     )
     
+    #? Expose functions that the frontend should have
     for name in dir(sharkfin):
         func = getattr(sharkfin, name)
         if callable(func) and not name.startswith("_"):
