@@ -96,11 +96,11 @@
 
                         <optionContainer>
                             <div style="align-content: center;">
-                                <text>Experiences History</text><br>
+                                <text>Experience History</text><br>
                                 <text style="font-size: 12px;">Allow sharkfin to track what games you've recently played.</text>
                             </div>
                             <div style="margin-left: auto; align-content: center;">
-                                <checkbox-toggle data-id="tracking-experiences-history"></checkbox-toggle>
+                                <checkbox-toggle data-id="tracking-experience-history"></checkbox-toggle>
                             </div>
                         </optionContainer>
 
@@ -259,7 +259,7 @@
                     <div style="display: flex; gap: 5px; flex-direction: column; margin-top: 24px;">
                         <optionContainer>
                             <div style="align-content: center;">
-                                <text>Fast Flags</text><br>
+                                <text>FastFlags</text><br>
                                 <text style="font-size: 12px;">Disabling this feature will prevent sharkfin from applying the FastFlags to the Roblox Client.</text>
                             </div>
                             <div style="margin-left: auto; align-content: center;">
@@ -269,11 +269,21 @@
 
                         <optionContainer>
                             <div style="align-content: center;">
-                                <text>Fast Flag Editor</text><br>
+                                <text>FastFlag Editor</text><br>
                                 <text style="font-size: 12px;">Manage your own Fast Flags.</text>
                             </div>
                             <div style="margin-left: auto; align-content: center;">
                                 <text style="font-size: 24px;">></text>
+                            </div>
+                        </optionContainer>
+
+                        <optionContainer>
+                            <div style="align-content: center;">
+                                <text>Respect User FastFlags</text><br>
+                                <text style="font-size: 12px;">Enabling this feature makes sure that sharkfin does not override your current FastFlags settings.</text>
+                            </div>
+                            <div style="margin-left: auto; align-content: center;">
+                                <checkbox-toggle data-id="fflag-respect-flags"></checkbox-toggle>
                             </div>
                         </optionContainer>
                     </div>
@@ -626,7 +636,7 @@
                                 <text style="font-size: 12px;">sharkfin will automatically check for new updates of sharkfin.</text>
                             </div>
                             <div style="margin-left: auto; align-content: center;">
-                                <checkbox-toggle data-id="autoupdate-sharkfin"></checkbox-toggle>
+                                <checkbox-toggle data-id="deployment-autoupdate-sharkfin"></checkbox-toggle>
                             </div>
                         </optionContainer>
                     </div>
@@ -642,7 +652,7 @@
                                 <text style="font-size: 12px;">sharkfin will automatically check for new updates and downloads a new version of Roblox</text>
                             </div>
                             <div style="margin-left: auto; align-content: center;">
-                                <checkbox-toggle data-id="autoupdate-roblox"></checkbox-toggle>
+                                <checkbox-toggle data-id="deployment-autoupdate-roblox"></checkbox-toggle>
                             </div>
                         </optionContainer>
 
@@ -661,7 +671,6 @@
                 <div style="width: 100%; height: 64px;"></div>
             </div>
 
-            <div class="selectscreen"></div>
         </div>
     </div>
 

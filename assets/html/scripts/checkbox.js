@@ -66,6 +66,13 @@ checkboxTemplate.innerHTML = `
     </div>
 `;
 
+// Helper function to wait for the pywebview API to be available
+async function waitForPyWebView() {
+    while (!window.pywebview || !window.pywebview.api || typeof window.pywebview.api.configureSetting !== 'function') {
+        await new Promise(resolve => setTimeout(resolve, 50));
+    }
+}
+
 class CheckboxElement extends HTMLElement {
     constructor() {
         super();
@@ -74,13 +81,27 @@ class CheckboxElement extends HTMLElement {
         this.shadowRoot.appendChild(checkboxTemplate.content.cloneNode(true));
     }
 
-    connectedCallback() {
+    async connectedCallback() {
         this._checkbox = this.shadowRoot.querySelector('.checkbox');
         this._checkImage = this.shadowRoot.querySelector('.check');
         this._markImage = this.shadowRoot.querySelector('.mark');
 
-        if (this.hasAttribute('value')) {
-            this._checked = this.getAttribute('value') === 'true';
+        const dataId = this.getAttribute('data-id');
+        console.log('Checkbox data-id:', dataId);
+
+        if (dataId) {
+            await waitForPyWebView();
+            console.log('pywebview API available, calling configureSetting with dataId:', dataId);
+            window.pywebview.api.configureSetting(dataId, undefined)
+                .then(value => {
+                    console.log('Received value:', value);
+                    this.checked = value;
+                })
+                .catch(err => {
+                    console.error('Failed to fetch setting:', err);
+                });
+        } else {
+            console.warn('No data-id provided.');
         }
 
         this._checkImage.addEventListener('animationend', () => {
@@ -112,6 +133,11 @@ class CheckboxElement extends HTMLElement {
         this.checked = !this.checked;
         this.dispatchEvent(new Event('change', { bubbles: true, composed: true }));
 
+        const dataId = this.getAttribute('data-id');
+        if (dataId && window.pywebview && window.pywebview.api) {
+            window.pywebview.api.configureSetting(dataId, this.checked);
+        }
+
         const targetImage = this.checked ? this._checkImage : this._markImage;
         const animationClass = this.checked ? 'bounce-translate' : 'bounce-scale';
         requestAnimationFrame(() => {
@@ -127,6 +153,7 @@ class CheckboxElement extends HTMLElement {
 }
 
 customElements.define('checkbox-toggle', CheckboxElement);
+
 
 function toggleCheckbox(dataId, value) {
     const el = document.querySelector(`checkbox-toggle[data-id="${dataId}"]`);

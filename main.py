@@ -1,11 +1,28 @@
 from webview import create_window, start
+from os import path, getcwd
+from json import load, dump
 
+def resource(filename: str):
+    return path.abspath(path.join(getcwd(), filename))
 class Sharkfin:
     def closeWindow(self):
         window.destroy()
-    
+
     def minimizeWindow(self):
         window.minimize()
+
+    # yoinked from rod n' mod project lol
+    def configureSetting(self, configItem, configValue=None):
+        with open(resource("data/config.json"), "r") as file:
+            config = load(file)
+
+        if configValue is None:
+            return config.get(configItem, "Not a configuration item")
+        else:
+            config[configItem] = configValue
+            with open(resource("data/config.json"), 'w') as file:
+                dump(config, file, indent=4)
+            return "Configured!"
 
 sharkfin = Sharkfin()
 
