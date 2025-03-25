@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="./assets/html/styles/main.css">
 </head>
 <body>
@@ -16,7 +17,7 @@
 
             <div style="position: fixed; top: 4px; right: 5px;">
                 <div style="display: grid; grid-template-columns: 1fr 18px 18px 18px; gap: 5px;">
-                    <text style="font-size: 14px; top: -17px; pointer-events: none; user-select: none;">alpha v1.0.0</text>
+                    <text style="font-size: 14px; top: -17px; pointer-events: none; user-select: none;">v0.1.0-alpha</text>
                     <img src="./assets/images/minimize.webp" draggable="false" width="18px" height="auto" onclick="window.pywebview.api.minimizeWindow()">
                     <img src="./assets/images/close.webp" draggable="false" width="18px" height="auto" onclick="window.pywebview.api.closeWindow()">
                     <img src="./assets/images/start.webp" draggable="false" width="18px" height="auto">
@@ -24,7 +25,7 @@
             </div>
         </div>
 
-        <div class="content" style="display: grid; grid-template-columns: 42px 1fr; margin-top: 24px; width: 100%; height: 100%; z-index: 1;">
+        <div style="display: grid; grid-template-columns: 42px 1fr; margin-top: 24px; width: 100%; height: 100%; z-index: 1;">
             <div class="sidebar" style="box-sizing: border-box; display: flex; flex-direction: column; justify-content: space-between; gap: 3px; padding: 5px; background-color: #4274c5; height: 100%;">
                 <div style="display: flex; flex-direction: column; gap: 3px; margin-top: 10px;">
                     <tabButton style="--bgcolor: #3f85c7;" onclick="document.querySelector('#integrations')?.scrollIntoView({ behavior: 'smooth' })">
@@ -32,19 +33,19 @@
                         <text>Integrations</text>
                     </tabButton>
                     <tabButton style="--bgcolor: #3f85c7;" onclick="document.querySelector('#mods')?.scrollIntoView({ behavior: 'smooth' })">
-                        <img src="./assets/images/hard_hat.webp" style="scale: 1.15;">
+                        <img src="./assets/images/hard_hat.webp" style="scale: 1.2;">
                         <text>Mods</text>
                     </tabButton>
                     <tabButton style="--bgcolor: #3f85c7;" onclick="document.querySelector('#fastflags')?.scrollIntoView({ behavior: 'smooth' })">
-                        <img src="./assets/images/flag.webp" style="scale: 1.15;">
+                        <img src="./assets/images/flag.webp" style="scale: 1.2;">
                         <text>FastFlags</text>
                     </tabButton>
                     <tabButton style="--bgcolor: #3f85c7;" onclick="document.querySelector('#customization')?.scrollIntoView({ behavior: 'smooth' })">
-                        <img src="./assets/images/bucket.webp" style="scale: 1.15;">
+                        <img src="./assets/images/bucket.webp" style="scale: 1.2;">
                         <text>Customization</text>
                     </tabButton>
                     <tabButton style="--bgcolor: #3f85c7;" onclick="document.querySelector('#deployment')?.scrollIntoView({ behavior: 'smooth' })">
-                        <img src="./assets/images/cloudcog.webp" style="scale: 1.15;">
+                        <img src="./assets/images/cloudcog.webp" style="scale: 1.2;">
                         <text>Deployment</text>
                     </tabButton>
                 </div>
@@ -58,15 +59,6 @@
             </div>
 
             <div class="content" style="padding: 0 68px; overflow-y: auto; max-height: calc(100vh - 24px);">
-                <!-- Main Screen -->
-                <div id="sharkfinscreen" style="height: calc(100vh - 24px); display: flex; align-items: center; justify-content: center;">
-                    <div style="text-align: center;">
-                        <img src="./assets/images/sharkfin.webp" height="456" width="auto"><br>
-                        <text style="font-size: 64px;">sharkfin</text><br>
-                        <text>by snarkden</text>
-                    </div>
-                </div>
-
                 <!-- Integrations -->
                 <div>
                     <div id="integrations" style="width: 100%; height: 32px;"></div>
@@ -168,12 +160,16 @@
                             <text style="font-size: 22px;">Program Autolaunch</text><br>
                             <text>Run other programs to launch with Roblox automatically.</text><br>
                         </div>
-                        <uiOption>
+
+                        <uiInteractable>
                             <div style="align-content: center;">
                                 <text>Feature not Available</text><br>
-                                <text style="font-size: 12px;">This feature will be available soon!</text>
+                                <text style="font-size: 12px;">Program Autolaunch will be available soon!</text>
                             </div>
-                        </uiOption>
+                            <div style="margin-left: auto; align-content: center;">
+                                <text style="font-size: 24px;">></text>
+                            </div>
+                        </uiInteractable>
                     </div>
                     
                 </div>
@@ -188,7 +184,7 @@
                         </div>
                         <img src="./assets/images/hard_hat.webp" style="position: relative; width: 60px; height: 60px; scale: 1.65; margin-left: auto;">
                     </div>
-
+                    
                     <div style="display: flex; gap: 5px; flex-direction: column; margin-top: 24px;">
                         <div>
                             <text style="font-size: 22px;">sharkfin Modding <text style="font-size: 12px;">experimental, beta</text></text><br>
@@ -224,30 +220,12 @@
                             <text>Configure and apply Roblox file mods.</text>
                         </div>
 
-                        <uiInteractable>
-                            <div style="align-content: center;">
-                                <text>Font</text><br>
-                                <text style="font-size: 12px;">Change the default font of the Roblox Client.</text>
-                            </div>
-                            <div style="margin-left: auto; align-content: center;">
-                                <text style="font-size: 24px;">></text>
-                            </div>
-                        </uiInteractable>
-
-                        <uiInteractable>
-                            <div style="align-content: center;">
-                                <text>Mouse Cursor</text><br>
-                                <text style="font-size: 12px;">Change the default cursor of the Roblox Client.</text>
-                            </div>
-                            <div style="margin-left: auto; align-content: center;">
-                                <text style="font-size: 24px;">></text>
-                            </div>
-                        </uiInteractable>
+                        <!-- roblox client modding -->
 
                         <uiOption>
                             <div style="align-content: center;">
                                 <text>Use Old Death Sound</text><br>
-                                <text style="font-size: 12px;">Revert to the old "oof" death sound from Roblox.</text>
+                                <text style="font-size: 12px;">Revert to the old "oof" death sound used prior to 2022</text>
                             </div>
                             <div style="margin-left: auto; align-content: center;">
                                 <checkbox-toggle data-id="modding-old-death-sound"></checkbox-toggle>
@@ -298,7 +276,7 @@
                             </div>
                         </uiOption>
 
-                        <uiInteractable>
+                        <uiInteractable id="ff-editor">
                             <div style="align-content: center;">
                                 <text>FastFlag Editor</text><br>
                                 <text style="font-size: 12px;">Configure your own FastFlags with the FastFlag Editor.</text>
@@ -311,10 +289,22 @@
                         <uiOption>
                             <div style="align-content: center;">
                                 <text>Respect User FastFlags</text><br>
-                                <text style="font-size: 12px;">Enabling this feature makes sure that sharkfin does not override your current existing FastFlags settings.</text>
+                                <text style="font-size: 12px;">Enabling this feature makes sure that sharkfin does not override your current existing FastFlags settings.</text><br>
+                                <text style="font-size: 10px;">This may cause some following FastFlags below to not apply.</text>
                             </div>
                             <div style="margin-left: auto; align-content: center;">
                                 <checkbox-toggle data-id="fflag-respect-flags"></checkbox-toggle>
+                            </div>
+                        </uiOption>
+
+                        <uiOption>
+                            <div style="align-content: center;">
+                                <text>Verify FastFlags</text><br>
+                                <text style="font-size: 12px;">Enabling this feature allows sharkfin to verify the FastFlag that you are adding to your list.</text><br>
+                                <text style="font-size: 10px;">This will attempt to highlight any FastFlags that does not exist in your config.</text>
+                            </div>
+                            <div style="margin-left: auto; align-content: center;">
+                                <checkbox-toggle data-id="fflag-verify-flags"></checkbox-toggle>
                             </div>
                         </uiOption>
                     </div>
@@ -324,14 +314,14 @@
                             <text style="font-size: 22px;">FastFlag Toggles</text><br>
                             <text>FastFlag toggles curated by the snarkden team.</text>
                         </div>
-                        
+
                         <uiOption>
                             <div style="align-content: center;">
-                                <text>optiontitle</text><br>
-                                <text style="font-size: 12px;">optiondescription</text>
+                                <text>Disable Beta Badge</text><br>
+                                <text style="font-size: 12px;">Disables the VC Beta Badge at the top left of the Roblox Client's screen.</text>
                             </div>
                             <div style="margin-left: auto; align-content: center;">
-                                <checkbox-toggle data-id="optionid"></checkbox-toggle>
+                                <checkbox-toggle data-id="fflag-toggle-disable-beta-badge"></checkbox-toggle>
                             </div>
                         </uiOption>
 
@@ -384,7 +374,7 @@
                             <div style="align-content: center;">
                                 <text>Performance Flags</text><br>
                                 <text style="font-size: 12px;">Increase your Roblox FPS by ~35%! Highly recommended for low-end systems that struggles with Rendering like iGPUs.</text><br>
-                                <text style="font-size: 10px;">As tested by @Zoiudolo. (237 -> 300-320/s) Performance increase may vary by system.</text>
+                                <text style="font-size: 10px;">As tested by @Zoiudolo. (237 -> 300-320/s) Performance increase may differ by system.</text>
                             </div>
                             <div style="margin-left: auto; align-content: center;">
                                 <checkbox-toggle data-id="fflag-preset-performance"></checkbox-toggle>
@@ -395,62 +385,62 @@
                             <text style="font-size: 22px;">Rendering and Graphics</text>
                         </div>
 
-                        <uiInteractable>
+                        <uiInteractable id="preferred-gpu">
                             <div style="align-content: center;">
                                 <text>Preferred GPU</text><br>
                                 <text style="font-size: 12px;">Select the GPU that Roblox will use for Rendering.</text>
                             </div>
                             <div style="margin-left: auto; align-content: center;">
-                                <text style="font-size: 24px;">></text>
+                                <text id="preferred-gpu-text"></text>
                             </div>
                         </uiInteractable>
 
-                        <uiInteractable>
+                        <uiInteractable id="rendering-mode">
                             <div style="align-content: center;">
                                 <text>Rendering Mode</text><br>
                                 <text style="font-size: 12px;">Select the Renderer that Roblox will use.</text>
                             </div>
                             <div style="margin-left: auto; align-content: center;">
-                                <text style="font-size: 24px;">></text>
+                                <text id="rendering-mode-text"></text>
                             </div>
                         </uiInteractable>
 
-                        <uiInteractable>
+                        <uiInteractable id="msaa-quality">
                             <div style="align-content: center;">
                                 <text>MSAA Quality</text><br>
                                 <text style="font-size: 12px;">Changes the Multisample Anti-Aliasing Quality</text>
                             </div>
                             <div style="margin-left: auto; align-content: center;">
-                                <text style="font-size: 24px;">></text>
+                                <text id="msaa-quality-text"></text>
                             </div>
                         </uiInteractable>
 
-                        <uiInteractable>
+                        <uiInteractable id="texture-quality">
                             <div style="align-content: center;">
                                 <text>Texture Quality</text>
                             </div>
                             <div style="margin-left: auto; align-content: center;">
-                                <text style="font-size: 24px;">></text>
+                                <text id="texture-quality-text"></text>
                             </div>
                         </uiInteractable>
 
-                        <uiInteractable>
+                        <uiInteractable id="framerate-limit">
                             <div style="align-content: center;">
                                 <text>Framerate Limit</text><br>
                                 <text style="font-size: 12px;">Change the framerate limit to a custom limit. Set to 0 to use Roblox's natime framerate unlocker.</text>
                             </div>
                             <div style="margin-left: auto; align-content: center;">
-                                <text style="font-size: 24px;">></text>
+                                <text id style="font-size: 24px;">></text>
                             </div>
                         </uiInteractable>
 
-                        <uiInteractable>
+                        <uiInteractable id="lighting-technology">
                             <div style="align-content: center;">
                                 <text>Lighting Technology</text><br>
                                 <text style="font-size: 12px;">This option will force all Roblox Games to use your Preferred Lighting Technology.</text>
                             </div>
                             <div style="margin-left: auto; align-content: center;">
-                                <text style="font-size: 24px;">></text>
+                                <text id="lighting-technology-text"></text>
                             </div>
                         </uiInteractable>
 
@@ -495,17 +485,7 @@
                             <text style="font-size: 22px;">User Interface and Layout</text>
                         </div>
 
-                        <uiInteractable>
-                            <div style="align-content: center;">
-                                <text>Font Size</text><br>
-                                <text style="font-size: 12px;">Default: 1. Adjust the font of Roblox (or your custom font)</text>
-                            </div>
-                            <div style="margin-left: auto; align-content: center;">
-                                <text style="font-size: 24px;">></text>
-                            </div>
-                        </uiInteractable>
-
-                        <uiInteractable>
+                        <uiInteractable id="gui-hiding">
                             <div style="align-content: center;">
                                 <text>GUI Hiding</text><br>
                                 <text style="font-size: 12px;">Input the ID of a group that you're in.</text>
@@ -588,7 +568,7 @@
                             <text style="font-size: 22px;">Debugging</text>
                         </div>
 
-                        <uiInteractable>
+                        <uiInteractable id="flag-state">
                             <div style="align-content: center;">
                                 <text>Flag State</text><br>
                                 <text style="font-size: 12px;">Show the values of the list of flags during runtime.</text>
@@ -637,10 +617,20 @@
                             <text style="font-size: 12px;">Change how the Bootstrapper should look like.</text><br>
                         </div>
     
-                        <uiInteractable>
+                        <uiInteractable id="bootstrapper-change-theme">
                             <div style="align-content: center;">
-                                <text>Open Folder</text><br>
-                                <text style="font-size: 12px;">Open the folder where the Bootstrapper source files is Stored.</text>
+                                <text>Change Bootstrapper Theme</text><br>
+                                <text style="font-size: 12px;">Change the Theme of sharkfin's Bootstrapper</text>
+                            </div>
+                            <div style="margin-left: auto; align-content: center;">
+                                <text id="bootstrapper-change-theme-text"></text>
+                            </div>
+                        </uiInteractable>
+
+                        <uiInteractable id="bootstrapper-themes-folder">
+                            <div style="align-content: center;">
+                                <text>Open Bootstrapper Themes Folder</text><br>
+                                <text style="font-size: 12px;">Open the folder where sharkfin stores it's</text>
                             </div>
                             <div style="margin-left: auto; align-content: center;">
                                 <text style="font-size: 24px;">></text>
@@ -654,7 +644,7 @@
                             <text style="font-size: 12px;">Change how the Roblox Client should look like.</text><br>
                         </div>
     
-                        <uiInteractable>
+                        <uiInteractable id="roblox-theme">
                             <div style="align-content: center;">
                                 <text>Theme</text><br>
                                 <text style="font-size: 12px;">Change the full theme of the Roblox Client.</text>
@@ -664,13 +654,33 @@
                             </div>
                         </uiInteractable>
 
-                        <uiInteractable>
+                        <uiInteractable id="roblox-font">
                             <div style="align-content: center;">
                                 <text>Font</text><br>
-                                <text style="font-size: 12px;">Change the used font of the Roblox Client. To change the font size <text></text></text>
+                                <text style="font-size: 12px;">Change the used font of the Roblox Client.</text>
                             </div>
                             <div style="margin-left: auto; align-content: center;">
                                 <text style="font-size: 24px;">></text>
+                            </div>
+                        </uiInteractable>
+
+                        <uiInteractable id="roblox-font-size">
+                            <div style="align-content: center;">
+                                <text>Font Size</text><br>
+                                <text style="font-size: 12px;">Change the font size of the Roblox Client's UI.</text>
+                            </div>
+                            <div style="margin-left: auto; align-content: center;">
+                                <text style="font-size: 24px;">></text>
+                            </div>
+                        </uiInteractable>
+
+                        <uiInteractable id="roblox-mouse-cursor">
+                            <div style="align-content: center;">
+                                <text>Mouse Cursor</text><br>
+                                <text style="font-size: 12px;">Change the default cursor of the Roblox Client.</text>
+                            </div>
+                            <div style="margin-left: auto; align-content: center;">
+                                <text id="roblox-mouse-cursor-text"></text>
                             </div>
                         </uiInteractable>
                     </div>
@@ -678,7 +688,7 @@
 
                 <!-- Deployment -->
                 <div>
-                    <div id="deployment" style="width: 100%; height: 24px;"></div>
+                    <div id="deployment" style="width: 100%; height: 32px;"></div>
                     <div style="display: flex;">
                         <div>
                             <text style="font-size: 32px;">Deployment</text><br>
@@ -702,7 +712,7 @@
                             </div>
                         </uiOption>
 
-                        <uiInteractable>
+                        <uiInteractable onclick="window.pywebview.api.setDefault()">
                             <div style="align-content: center;">
                                 <text>Set Sharkfin as Default Roblox Bootstrapper</text><br>
                                 <text style="font-size: 12px;">Set sharkfin as your default roblox bootstrapper.</text>
@@ -728,7 +738,7 @@
                             </div>
                         </uiOption>
 
-                        <uiInteractable style="cursor: pointer;">
+                        <uiInteractable id="roblox-deployment-channel">
                             <div style="align-content: center;">
                                 <text>Deployment Channel</text><br>
                                 <text style="font-size: 12px;">Change the Deployment Channel that sharkfin should listen to.</text><br>
@@ -739,9 +749,9 @@
                             </div>
                         </uiInteractable>
 
-                        <uiInteractable id="reinstallprogress" style="cursor: pointer;" onclick="window.pywebview.api.reinstallRoblox()">
+                        <uiInteractable id="reinstallprogress" onclick="window.pywebview.api.reinstallRoblox()">
                             <div style="align-content: center;">
-                                <text>Force Roblox Reinstall</text><br>
+                                <text>Reinstall Roblox</text><br>
                                 <text id="status" style="font-size: 12px;">Reinstall the Roblox Client.</text>
                             </div>
                             <div style="margin-left: auto; align-content: center;">
@@ -751,9 +761,38 @@
                     </div>
                 </div>
 
+                <div>
+                    <div id="about" style="width: 100%; height: 32px;"></div>
+                    <div style="display: flex;">
+                        <div>
+                            <text style="font-size: 32px;">About sharkfin</text><br>
+                            <text>hmm...</text>
+                        </div>
+                        <img src="./assets/images/sharkfin_framework.webp" style="position: relative; width: 60px; height: 60px; scale: 1.65; margin-left: auto;">
+                    </div>
+                </div>
+
                 <div style="width: 100%; height: 64px;"></div>
             </div>
+        </div>
 
+        <div id="focusScreen" style="position: fixed; top: 0; display: grid; grid-template-columns: 42px 1fr; margin-top: 24px; width: 100%; height: 100vh; z-index: 2;">
+            <div></div>
+        
+            <div id="screenContent" style="backdrop-filter: blur(5px); transition: backdrop-filter 500ms; height: 100vh;">
+                <div id="sharkfinscreen" style="display: none; height: calc(100vh - 24px); display: flex; align-items: center; justify-content: center; transition: 500ms;">
+                    <div style="text-align: center; line-height: 18px;">
+                        <img id="sf-logo" src="./assets/images/sharkfin.webp" height="456" width="auto"><br>
+                        <text style="font-size: 64px;">sharkfin</text><br>
+                        <text>by snarkden</text>
+                    </div>
+                </div>
+                
+                <div id="itemMenu" style="height: calc(100vh - 24px); display: flex; align-items: center; justify-content: center; transition: 500ms; scale: 0.8; opacity: 0;">
+                    <div id="menuContainer" style="max-height: 80%; overflow-y: auto; display: flex; flex-direction: column; padding: 10px; width: 400px; background-color: #3c92e1; border-radius: 5px; gap: 5px;">
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 

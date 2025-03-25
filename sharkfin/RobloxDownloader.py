@@ -15,8 +15,8 @@ WINDOWSPLAYER = {
         "redist.zip": "",
         "shaders.zip": "shaders/",
         "ssl.zip": "ssl/",
-        "WebView2.zip": "",
-        "WebView2RuntimeInstaller.zip": "WebView2RuntimeInstaller/",
+        #"WebView2.zip": "",
+        #"WebView2RuntimeInstaller.zip": "WebView2RuntimeInstaller/",
         "content-avatar.zip": "content/avatar/",
         "content-configs.zip": "content/configs/",
         "content-fonts.zip": "content/fonts/",
@@ -46,8 +46,8 @@ WINDOWSSTUDIO64 = {
         "redist.zip": "",
         "Libraries.zip": "",
         "LibrariesQt5.zip": "",
-        "WebView2.zip": "",
-        "WebView2RuntimeInstaller.zip": "",
+        #"WebView2.zip": "",
+        #"WebView2RuntimeInstaller.zip": "",
         "shaders.zip": "shaders/",
         "ssl.zip": "ssl/",
         "ApplicationConfig.zip": "ApplicationConfig/",
@@ -114,7 +114,7 @@ def download(config, channel=None):
     <BaseUrl>http://www.roblox.com</BaseUrl>
 </Settings>"""
             )
-        yield 5, "Wrote AppSettings.xml"
+        yield 0, "Wrote AppSettings.xml"
 
         manifest_url = f"{host_path}/{client_version_upload}-rbxPkgManifest.txt"
         manifest_text = fetch(manifest_url).text
@@ -131,9 +131,22 @@ def download(config, channel=None):
             if not pkg.endswith(".zip"):
                 continue
             pkg_url = f"{host_path}/{client_version_upload}-{pkg}"
-            yield min(100, int((processed_packages / total_packages) * 100)), f"Downloading {pkg}..."
+            yield min(100, int((processed_packages / total_packages) * 100)), f"Starting download for {pkg}..."
             try:
-                zip_data = fetch(pkg_url).content
+                # Stream the zip file download and update progress
+                with client.stream("GET", pkg_url) as response:
+                    response.raise_for_status()
+                    total_length = int(response.headers.get("Content-Length", 0))
+                    downloaded = 0
+                    chunks = []
+                    for chunk in response.iter_bytes(chunk_size=8192):
+                        if chunk:
+                            chunks.append(chunk)
+                            downloaded += len(chunk)
+                            download_percent = (downloaded / total_length) * 100 if total_length else 0
+                            overall_progress = int((processed_packages / total_packages) * 100 + (download_percent / total_packages))
+                            yield overall_progress, f"Downloading {pkg}: {download_percent:.2f}%"
+                    zip_data = b"".join(chunks)
             except Exception as e:
                 yield min(100, int((processed_packages / total_packages) * 100)), f"Failed to download {pkg}: {e}"
                 processed_packages += 1
@@ -156,9 +169,8 @@ def download(config, channel=None):
                             target.write(source.read())
                         extracted_files += 1
                         progress = int(((processed_packages + extracted_files / total_files) / total_packages) * 100)
-                        yield progress, f"Extracting {member.filename} from {pkg}"
+                        yield progress, f"Extracting {member.filename}"
                 processed_packages += 1
-                #yield min(100, int((processed_packages / total_packages) * 100)), f"Extracted {pkg} to {target_folder}"
             except Exception as e:
                 yield min(100, int((processed_packages / total_packages) * 100)), f"Failed to extract {pkg}: {e}"
                 processed_packages += 1
@@ -168,6 +180,6 @@ def download(config, channel=None):
         yield 100, "Download complete."
 
 
-if __name__ == "__main__": # testing
-    for x in download(WINDOWSPLAYER):
-        print(x)
+if __name__ == "__main__":  # testing
+    for progress, status in download(WINDOWSPLAYER):
+        print(f"{progress}% - {status}")

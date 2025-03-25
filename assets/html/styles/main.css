@@ -3,6 +3,11 @@
     src: url("../../fonts/Quicksand.ttf");
 }
 
+* {
+    text-rendering: geometricPrecision;
+    -webkit-font-smoothing: subpixel-antialiased;
+    -moz-osx-font-smoothing: auto;
+}
 html, body {
     margin: 0;
     width: 100vw;
@@ -13,17 +18,16 @@ html, body {
 }
 
 ::-webkit-scrollbar {
-    width: 10px;
+    width: 8px;
 }
 
 ::-webkit-scrollbar-track {
-    background: #2a5da8;
+    background: transparent;
 }
 
 ::-webkit-scrollbar-thumb {
     background: #4c84c9;
-    border-radius: 6px;
-    border: 2px solid #2a5da8;
+    border-radius: 5px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
@@ -36,12 +40,12 @@ text {
 
 uiOption {
     display: flex;
-    background-color: #3f85c7;
+    background-color: #3f8dd6;
     border-radius: 5px;
     padding: 10px;
     gap: 5px;
     will-change: transform;
-    transition: transform 300ms ease;
+    transition: transform 200ms ease;
     transform: translateZ(0);
 }
 
@@ -51,13 +55,14 @@ uiOption:hover {
 
 uiInteractable {
     display: flex;
-    background-color: #3f85c7;
+    background-color: #3f8dd6;
     border-radius: 5px;
     padding: 10px;
     gap: 5px;
     will-change: transform;
-    transition: transform 300ms ease;
+    transition: transform 200ms ease, background-color 200ms ease;
     transform: translateZ(0);
+    cursor: pointer;
 }
 
 uiInteractable:hover {
@@ -65,6 +70,7 @@ uiInteractable:hover {
 }
 
 uiInteractable:active {
+    background-color: #3f85c7;
     transform: scale(0.98) translateZ(0);
 }
 

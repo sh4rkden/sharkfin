@@ -4,7 +4,8 @@ from httpx import get
 from time import sleep
 
 from sharkfin.RobloxDownloader import WINDOWSPLAYER, download
-import sys
+from sharkfin.Utils import get_gpu_list, set_protocol
+from sys import argv
 import subprocess
 from os import path, chdir
 from shutil import rmtree
@@ -30,6 +31,77 @@ class Sharkfin:
             with open(resource("data/config.json"), 'w') as file:
                 dump(config, file, indent=4)
             return True
+    
+    #? since i dont want to make it so jank in the frontend lol
+    #? this is so jank though...
+    def updateFrontendConfigDisplays(self):
+        sleep(0.02) #! DO NOT REMOVE THIS AT ALL
+        with open(resource("data/config.json"), "r") as file:
+            config = load(file)
+        
+        preferredGPU = "Automatic" if config["fflag-preferred-gpu"].lower() == "auto" else config["fflag-preferred-gpu"]
+        renderingMode = config["fflag-rendering-mode"]
+        msaaQuality = config["fflag-msaa-quality"]
+        textureQuality = config["fflag-texture-quality"]
+        lightingTechnology = config["fflag-lighting-technology"]
+        mouseCursor = config["customization-custom-cursor"]
+        bootstrapperTheme = config["sharkfin-bootstrapper-name"]
+        
+        display_mappings = {
+            "rendering_mode": {
+                "auto": "Automatic",
+                "vulkan": "Vulkan",
+                "opengl": "OpenGL",
+                "d3d10": "Direct3D 10",
+                "d3d11": "Direct3D 11",
+            },
+            "msaa_quality": {
+                "auto": "Automatic",
+                "1": "1x",
+                "2": "2x",
+                "4": "4x",
+                "8": "8x (buggy)",
+                "16": "16x (buggy)",
+            },
+            "texture_quality": {
+                "auto": "Automatic",
+                "0": "Lowest (0)",
+                "1": "Low (1)",
+                "2": "High (2)",
+                "3": "Highest (3)",
+            },
+            "lighting_technology": {
+                "auto": "Automatic",
+                "voxel": "Voxel",
+                "shadowmap": "Shadow Map",
+                "future": "Future",
+            },
+            "mouse_cursor": {
+                "default": "Default",
+                "angular": "Angular",
+                "cartoony": "Cartoony",
+            },
+        }
+
+        def set_text(element_id, text):
+            window.run_js(f'document.getElementById("{element_id}").innerText = "{text}"')
+
+        set_text("preferred-gpu-text", preferredGPU)
+        set_text("rendering-mode-text", display_mappings["rendering_mode"].get(renderingMode, renderingMode))
+        set_text("msaa-quality-text", display_mappings["msaa_quality"].get(msaaQuality, msaaQuality))
+        set_text("texture-quality-text", display_mappings["texture_quality"].get(textureQuality, textureQuality))
+        set_text("lighting-technology-text", display_mappings["lighting_technology"].get(lightingTechnology, lightingTechnology))
+        set_text("roblox-mouse-cursor-text", display_mappings["mouse_cursor"].get(mouseCursor, mouseCursor))
+        set_text("bootstrapper-change-theme-text", bootstrapperTheme)
+        
+    def getGPUList(self):
+        gpus = get_gpu_list()
+        return gpus
+    
+    def setDefault(self):
+        application_path = path.dirname(path.abspath(__file__))
+        set_protocol("roblox", application_path, "sharkfin")
+        set_protocol("roblox-player", application_path, "sharkfin")
     
     def reinstallRoblox(self):
         if not self.reinstallingClient:
@@ -65,23 +137,24 @@ if __name__ == "__main__":
     def resource(filename: str):
         return path.abspath(path.join(path.dirname(__file__), filename))
     
-    if len(sys.argv) > 1: #? Launch Roblox Player or Studio
-        arguments = sys.argv[1]
+    if len(argv) > 1: #? Launch Roblox Player or Studio
+        arguments = argv[1]
         
-        # get sharkfin config
-        with open(resource(path.join("data", "config.json")), "r") as config:
-            config = load(config)
-            
+        #? get sharkfin config
+        with open(resource(path.join("data", "config.json")), "r") as config_file:
+            config = load(config_file)
+
         bootstrapperName = config["sharkfin-bootstrapper-name"]
         
-        with open(resource(path.join("data", "bootstrapper", bootstrapperName, "config.json")), "r") as config:
-            bootstrapperConfig = load(config)
+        #? get current bootstrapper config
+        with open(resource(path.join("bootstrappers", bootstrapperName, "config.json")), "r") as bootstrapper_config:
+            bootstrapperConfig = load(bootstrapper_config)
             
         windowTitle, wwidth, wheight = bootstrapperConfig["windowTitle"], bootstrapperConfig["windowWidth"], bootstrapperConfig["windowHeight"]
         
         loader = create_window(
             title=windowTitle,
-            url=resource(path.join("data", "bootstrapper", bootstrapperName, "window.html")),
+            url=resource(path.join("bootstrappers", bootstrapperName, "window.html")),
 
             width=wwidth + 16, height=wheight + 39,
             frameless=True,
@@ -94,12 +167,12 @@ if __name__ == "__main__":
                 
             # Launch Roblox Player
             if arguments.startswith("roblox"):
-                # compare version from server and local
+                # update roblox - compare version from server and local
                 if config["deployment-autoupdate-roblox"]:
-                    loader.run_js('document.getElementById("status").innerText = "Checking for Roblox Update..."')
                     robloxPlayerExists = path.exists(resource(path.join("Roblox", "Player", "RobloxPlayerBeta.exe")))
-
+                    
                     if robloxPlayerExists:
+                        changeStatus("Checking for Roblox Update...")
                         with open(resource(path.join("Roblox", "Player", "sf-version.txt")), "r") as file:
                             content = file.read()
                             local_version, local_clientVersionUpload = content.split("|")
@@ -116,6 +189,7 @@ if __name__ == "__main__":
                             changeStatus(f"({percentage}%) {status}")
                             loader.run_js(f'document.getElementById("progress").style.width = "{percentage}%"')
 
+                
                 #? apply fastflags (so it can be reverted later once the robloxplayer stops)
                 #? we construct the json data here and then shove it to the user's fastflags and if
                 #? the respect user fflags is enabled it should discard the fflags that it will append to the user's
@@ -146,12 +220,7 @@ if __name__ == "__main__":
             width=1000 + 16, height=800 + 39,
             frameless=True,
             easy_drag=True,
+            js_api=sharkfin,
         )
-
-        #? Expose functions that the frontend should have
-        for name in dir(sharkfin):
-            func = getattr(sharkfin, name)
-            if callable(func) and not name.startswith("_"):
-                window.expose(func)
 
         start(debug=True)

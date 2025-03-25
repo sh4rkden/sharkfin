@@ -21,4 +21,3 @@ A shark-y bootstrapper which offers new features for casuals and professionals t
 - Fast Flag Editor
 - Application Integration
 - Modding Integration (python) using the [sharkfin Modding Framework](https://github.com/snarkden/sharkfin-framework)
-- Multi-Instance Roblox Sessions
