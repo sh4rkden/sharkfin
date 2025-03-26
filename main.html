@@ -424,15 +424,17 @@
                             </div>
                         </uiInteractable>
 
-                        <uiInteractable id="framerate-limit">
+                        <uiOption>
                             <div style="align-content: center;">
                                 <text>Framerate Limit</text><br>
                                 <text style="font-size: 12px;">Change the framerate limit to a custom limit. Set to 0 to use Roblox's natime framerate unlocker.</text>
                             </div>
                             <div style="margin-left: auto; align-content: center;">
-                                <text id style="font-size: 24px;">></text>
+                                <div class="fancy-box">
+                                    <input id="framerate-limit" type="text">
+                                </div>
                             </div>
-                        </uiInteractable>
+                        </uiOption>
 
                         <uiInteractable id="lighting-technology">
                             <div style="align-content: center;">
@@ -485,15 +487,17 @@
                             <text style="font-size: 22px;">User Interface and Layout</text>
                         </div>
 
-                        <uiInteractable id="gui-hiding">
+                        <uiOption>
                             <div style="align-content: center;">
                                 <text>GUI Hiding</text><br>
                                 <text style="font-size: 12px;">Input the ID of a group that you're in.</text>
                             </div>
                             <div style="margin-left: auto; align-content: center;">
-                                <text style="font-size: 24px;">></text>
+                                <div class="fancy-box">
+                                    <input id="gui-hiding" type="text">
+                                </div>
                             </div>
-                        </uiInteractable>
+                        </uiOption>
 
                         <uiOption>
                             <div style="align-content: center;">
@@ -568,15 +572,18 @@
                             <text style="font-size: 22px;">Debugging</text>
                         </div>
 
-                        <uiInteractable id="flag-state">
+                        <uiOption>
                             <div style="align-content: center;">
                                 <text>Flag State</text><br>
-                                <text style="font-size: 12px;">Show the values of the list of flags during runtime.</text>
+                                <text style="font-size: 12px;">Show the values of the list of flags during runtime.</text><br>
+                                <text style="font-size: 10px;">Separate FastFlags with commas</text><br>
                             </div>
                             <div style="margin-left: auto; align-content: center;">
-                                <text style="font-size: 24px;">></text>
+                                <div class="fancy-box">
+                                    <input id="flag-state" type="text">
+                                </div>
                             </div>
-                        </uiInteractable>
+                        </uiOption>
 
                         <uiOption>
                             <div style="align-content: center;">
@@ -664,15 +671,17 @@
                             </div>
                         </uiInteractable>
 
-                        <uiInteractable id="roblox-font-size">
+                        <uiOption>
                             <div style="align-content: center;">
                                 <text>Font Size</text><br>
                                 <text style="font-size: 12px;">Change the font size of the Roblox Client's UI.</text>
                             </div>
                             <div style="margin-left: auto; align-content: center;">
-                                <text style="font-size: 24px;">></text>
+                                <div class="fancy-box">
+                                    <input id="font-size" type="text">
+                                </div>
                             </div>
-                        </uiInteractable>
+                        </uiOption>
 
                         <uiInteractable id="roblox-mouse-cursor">
                             <div style="align-content: center;">
@@ -738,16 +747,18 @@
                             </div>
                         </uiOption>
 
-                        <uiInteractable id="roblox-deployment-channel">
+                        <uiOption id="roblox-deployment-channel">
                             <div style="align-content: center;">
                                 <text>Deployment Channel</text><br>
                                 <text style="font-size: 12px;">Change the Deployment Channel that sharkfin should listen to.</text><br>
-                                <text style="font-size: 10px;"></text>
+                                <text style="font-size: 10px;">Version: <text id="version"></text> VersionGUID: <text id="versionguid"></text></text>
                             </div>
                             <div style="margin-left: auto; align-content: center;">
-                                <text style="font-size: 24px;">></text>
+                                <div class="fancy-box">
+                                    <input id="deployment-channel" type="text">
+                                </div>
                             </div>
-                        </uiInteractable>
+                        </uiOption>
 
                         <uiInteractable id="reinstallprogress" onclick="window.pywebview.api.reinstallRoblox()">
                             <div style="align-content: center;">

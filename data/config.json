@@ -24,7 +24,7 @@
     "fflag-rendering-mode": "auto",
     "fflag-msaa-quality": "auto",
     "fflag-texture-quality": "auto",
-    "fflag-framerate-limit": -1,
+    "fflag-framerate-limit": "-1",
     "fflag-lighting-technology": "auto",
     "fflag-graphics-preserve-render-quality": true,
     "fflag-graphics-disable-player-shadow": false,
@@ -38,11 +38,14 @@
     "fflag-menu-language-selector": false,
     "fflag-menu-framerate-cap": true,
     "fflag-menu-chat-translation": true,
+    "fflag-flag-state": "",
     "fflag-showall-flag-state": false,
     "fflag-ping-breakdown": false,
     "customization-custom-font": "",
+    "customization-font-size": "1",
     "customization-custom-cursor": "default",
     "deployment-autoupdate-sharkfin": true,
     "deployment-autoupdate-roblox": true,
+    "deployment-roblox-channel": "production",
     "sharkfin-bootstrapper-name": "sharkfin"
 }

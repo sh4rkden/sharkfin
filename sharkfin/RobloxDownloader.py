@@ -79,6 +79,16 @@ WINDOWSSTUDIO64 = {
 
 def download(config, channel=None):
     timeout = Timeout(120)
+    last_progress = 0.0
+
+    def safe_yield(progress, message):
+        nonlocal last_progress
+        progress = round(progress, 2)
+        if progress < last_progress:
+            progress = last_progress
+        last_progress = progress
+        yield progress, message
+
     with Client(timeout=timeout) as client:
 
         def fetch(url, retries=2, delay=3):
@@ -93,15 +103,16 @@ def download(config, channel=None):
                     else:
                         raise e
 
-        if channel is None:
+        # Fetch version info
+        if channel is None or channel == "production":
             resp = fetch(config["clientVersionURL"])
         else:
             resp = fetch(config["clientVersionURL"] + f"/channel/{channel}")
             
         version = resp.json().get("version")
         client_version_upload = resp.json().get("clientVersionUpload")
-        yield 0, f"version: {version}"
-        yield 0, f"ClientVersionUpload: {client_version_upload}"
+        yield from safe_yield(0.00, f"version: {version}")
+        yield from safe_yield(0.00, f"ClientVersionUpload: {client_version_upload}")
 
         output_dir = config["outputDir"]
         makedirs(output_dir, exist_ok=True)
@@ -114,14 +125,14 @@ def download(config, channel=None):
     <BaseUrl>http://www.roblox.com</BaseUrl>
 </Settings>"""
             )
-        yield 0, "Wrote AppSettings.xml"
+        yield from safe_yield(0.00, "Wrote AppSettings.xml")
 
         manifest_url = f"{host_path}/{client_version_upload}-rbxPkgManifest.txt"
         manifest_text = fetch(manifest_url).text
         pkg_manifest = [line.strip() for line in manifest_text.splitlines() if line.strip()]
 
         if not pkg_manifest or pkg_manifest[0] != "v0":
-            yield 100, "Unexpected manifest format."
+            yield from safe_yield(100.00, "Unexpected manifest format.")
             return
 
         total_packages = sum(1 for pkg in pkg_manifest[1:] if pkg.endswith(".zip"))
@@ -130,10 +141,13 @@ def download(config, channel=None):
         for pkg in pkg_manifest[1:]:
             if not pkg.endswith(".zip"):
                 continue
+
             pkg_url = f"{host_path}/{client_version_upload}-{pkg}"
-            yield min(100, int((processed_packages / total_packages) * 100)), f"Starting download for {pkg}..."
+            base_progress = (processed_packages / total_packages) * 100
+
+            yield from safe_yield(base_progress, f"Starting download for {pkg}...")
+
             try:
-                # Stream the zip file download and update progress
                 with client.stream("GET", pkg_url) as response:
                     response.raise_for_status()
                     total_length = int(response.headers.get("Content-Length", 0))
@@ -144,11 +158,11 @@ def download(config, channel=None):
                             chunks.append(chunk)
                             downloaded += len(chunk)
                             download_percent = (downloaded / total_length) * 100 if total_length else 0
-                            overall_progress = int((processed_packages / total_packages) * 100 + (download_percent / total_packages))
-                            yield overall_progress, f"Downloading {pkg}: {download_percent:.2f}%"
+                            overall_progress = base_progress + (download_percent / total_packages)
+                            yield from safe_yield(overall_progress, f"Downloading {pkg}: {download_percent:.2f}%")
                     zip_data = b"".join(chunks)
             except Exception as e:
-                yield min(100, int((processed_packages / total_packages) * 100)), f"Failed to download {pkg}: {e}"
+                yield from safe_yield(base_progress, f"Failed to download {pkg}: {e}")
                 processed_packages += 1
                 continue
 
@@ -168,16 +182,17 @@ def download(config, channel=None):
                         with z.open(member) as source, open(target_path, "wb") as target:
                             target.write(source.read())
                         extracted_files += 1
-                        progress = int(((processed_packages + extracted_files / total_files) / total_packages) * 100)
-                        yield progress, f"Extracting {member.filename}"
+                        overall_progress = ((processed_packages + (extracted_files / total_files)) / total_packages) * 100
+                        yield from safe_yield(overall_progress, f"Extracting {member.filename}")
                 processed_packages += 1
             except Exception as e:
-                yield min(100, int((processed_packages / total_packages) * 100)), f"Failed to extract {pkg}: {e}"
+                yield from safe_yield(base_progress, f"Failed to extract {pkg}: {e}")
                 processed_packages += 1
         
         with open(path.join(output_dir, "sf-version.txt"), "w") as file:
             file.write(f"{version}|{client_version_upload}")
-        yield 100, "Download complete."
+            
+        yield from safe_yield(100.00, "Download complete.")
 
 
 if __name__ == "__main__":  # testing

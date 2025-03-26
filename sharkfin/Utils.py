@@ -30,7 +30,7 @@ def set_protocol(protocol, application_path, program_name):
         CloseKey(icon_key)
 
         command_key = CreateKey(key, r"shell\open\command")
-        command = f'"{application_path}" "%1"'
+        command = f'{application_path} "%1"'
         SetValue(command_key, None, REG_SZ, command)
         CloseKey(command_key)
 
