@@ -439,7 +439,7 @@
                         <uiInteractable id="lighting-technology">
                             <div style="align-content: center;">
                                 <text>Lighting Technology</text><br>
-                                <text style="font-size: 12px;">This option will force all Roblox Games to use your Preferred Lighting Technology.</text>
+                                <text style="font-size: 12px;">This option will force all Roblox Games to use your preferred Lighting Technology.</text>
                             </div>
                             <div style="margin-left: auto; align-content: center;">
                                 <text id="lighting-technology-text"></text>
@@ -574,19 +574,6 @@
 
                         <uiOption>
                             <div style="align-content: center;">
-                                <text>Flag State</text><br>
-                                <text style="font-size: 12px;">Show the values of the list of flags during runtime.</text><br>
-                                <text style="font-size: 10px;">Separate FastFlags with commas</text><br>
-                            </div>
-                            <div style="margin-left: auto; align-content: center;">
-                                <div class="fancy-box">
-                                    <input id="flag-state" type="text">
-                                </div>
-                            </div>
-                        </uiOption>
-
-                        <uiOption>
-                            <div style="align-content: center;">
                                 <text>Show All Flag States</text><br>
                                 <text style="font-size: 12px;">Show all of the values of the list of flags you currently have during runtime.</text>
                             </div>
@@ -620,24 +607,24 @@
 
                     <div style="display: flex; gap: 5px; flex-direction: column; margin-top: 24px;">
                         <div>
-                            <text style="font-size: 22px;">Bootstrapper</text><br>
-                            <text style="font-size: 12px;">Change how the Bootstrapper should look like.</text><br>
+                            <text style="font-size: 22px;">Loader</text><br>
+                            <text style="font-size: 12px;">Change how the sharkfin Roblox Loader should look like.</text><br>
                         </div>
     
-                        <uiInteractable id="bootstrapper-change-theme">
+                        <uiInteractable id="loader-change-theme">
                             <div style="align-content: center;">
-                                <text>Change Bootstrapper Theme</text><br>
-                                <text style="font-size: 12px;">Change the Theme of sharkfin's Bootstrapper</text>
+                                <text>Change Loader Theme</text><br>
+                                <text style="font-size: 12px;">Change the Theme of sharkfin's Roblox Loader.</text>
                             </div>
                             <div style="margin-left: auto; align-content: center;">
-                                <text id="bootstrapper-change-theme-text"></text>
+                                <text id="loader-change-theme-text"></text>
                             </div>
                         </uiInteractable>
 
-                        <uiInteractable id="bootstrapper-themes-folder">
+                        <uiInteractable id="loader-themes-folder" onclick="window.pywebview.api.openLoaderThemesFolder()">
                             <div style="align-content: center;">
-                                <text>Open Bootstrapper Themes Folder</text><br>
-                                <text style="font-size: 12px;">Open the folder where sharkfin stores it's</text>
+                                <text>Open Loader Themes Folder</text><br>
+                                <text style="font-size: 12px;">Opens the folder where sharkfin store it's Loader Themes.</text>
                             </div>
                             <div style="margin-left: auto; align-content: center;">
                                 <text style="font-size: 24px;">></text>
@@ -787,16 +774,16 @@
             </div>
         </div>
 
-        <div id="focusScreen" style="position: fixed; top: 0; display: grid; grid-template-columns: 42px 1fr; margin-top: 24px; width: 100%; height: 100vh; z-index: 2;">
+        <div id="contextMenuScreen" style="position: fixed; top: 0; display: grid; grid-template-columns: 42px 1fr; margin-top: 24px; width: 100%; height: 100vh; z-index: 2;">
             <div></div>
         
-            <div id="screenContent" style="backdrop-filter: blur(5px); transition: backdrop-filter 500ms; height: 100vh;">
+            <div id="contextMenuContent" style="backdrop-filter: blur(5px); transition: backdrop-filter 500ms; height: 100vh;">
                 <div id="sharkfinscreen" style="display: none; height: calc(100vh - 24px); display: flex; align-items: center; justify-content: center; transition: 500ms;">
                     <div style="text-align: center; line-height: 18px;">
-                        <img id="sf-logo" src="./assets/images/sharkfin.webp" height="456" width="auto"><br>
+                        <img src="./assets/images/sharkfin.webp" height="456" width="auto"><br>
                         <text style="font-size: 64px;">sharkfin</text><br>
                         <text>by snarkden</text>
-                    </div>
+                    </div> 
                 </div>
                 
                 <div id="itemMenu" style="height: calc(100vh - 24px); display: flex; align-items: center; justify-content: center; transition: 500ms; scale: 0.8; opacity: 0;">

@@ -17,7 +17,7 @@
     "fflag-toggle-disable-beta-badge": false,
     "fflag-toggle-disable-toast-notification": false,
     "fflag-toggle-disable-ingame-purchases": false,
-    "fflag-toggle-disable-beta-translation-sysmes": true,
+    "fflag-toggle-disable-beta-translation-sysmes": false,
     "fflag-preset-disable-telemetry": true,
     "fflag-preset-performance": false,
     "fflag-preferred-gpu": "auto",
@@ -47,5 +47,5 @@
     "deployment-autoupdate-sharkfin": true,
     "deployment-autoupdate-roblox": true,
     "deployment-roblox-channel": "production",
-    "sharkfin-bootstrapper-name": "sharkfin"
+    "sharkfin-loader-name": "roblox-theme"
 }

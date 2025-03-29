@@ -2,13 +2,13 @@ const itemMenu = document.getElementById("itemMenu")
 
 window.addEventListener("pywebviewready", function() {
     setTimeout(() => {
-        document.getElementById("screenContent").style.backdropFilter = "blur(0px)";
+        document.getElementById("contextMenuContent").style.backdropFilter = "blur(0px)";
         document.getElementById('sharkfinscreen').style.scale = "0.8";
         document.getElementById('sharkfinscreen').style.opacity = "0";
     }, 1000)
     
     setTimeout(() => {
-        document.getElementById('focusScreen').style.zIndex = "-1";
+        document.getElementById('contextMenuScreen').style.zIndex = "-1";
         document.getElementById('sharkfinscreen')?.remove();
     }, 1500);
 
@@ -26,6 +26,13 @@ window.addEventListener("pywebviewready", function() {
     const framerateLimit = document.getElementById("framerate-limit") // user input
     const lightingTechnology = document.getElementById("lighting-technology")
     
+    ffEditor.addEventListener("click", function() {
+        document.getElementById("fflagEditorContent").style.backdropFilter = "blur(5px)";
+        document.getElementById('fflagEditor').style.scale = "1";
+        document.getElementById('fflagEditor').style.opacity = "1";
+        document.getElementById('fflagEditorScreen').style.zIndex = "2";
+    })
+
     window.pywebview.api.getGPUList().then(gpuList => {
         const menuItems = [
             {
@@ -217,30 +224,16 @@ window.addEventListener("pywebviewready", function() {
         window.pywebview.api.configureSetting("fflag-interface-gui-hiding", guiHiding.value)
     })
 
-    // fastflags - debugging
-    const flagState = document.getElementById("flag-state") // user input
-    
-    window.pywebview.api.configureSetting("fflag-flag-state").then(flags => {
-        flagState.value = flags;
-    }).catch(error => {
-        flagState.value = "";
-        console.log("Error getting flag states:", error)
-    })
-
-    flagState.addEventListener("change", function() {
-        window.pywebview.api.configureSetting("fflag-flag-state", flagState.value)
-    })
-
     // customization - bootstrapper
-    const bootstrapperTheme = document.getElementById("bootstrapper-change-theme")
+    const loaderTheme = document.getElementById("loader-change-theme")
     const openBootstrapperFolder = document.getElementById("bootstrapper-themes-folder") // open folder
     
-    bootstrapperTheme.addEventListener("click", function() {
-        window.pywebview.api.getBootstrapperThemeList().then(themeList => {
+    loaderTheme.addEventListener("click", function() {
+        window.pywebview.api.getLoaderThemeList().then(themeList => {
             const themesList = themeList.map(theme => ({
                 text: theme,
                 click: function() {
-                    window.pywebview.api.configureSetting("sharkfin-bootstrapper-name", theme);
+                    window.pywebview.api.configureSetting("sharkfin-loader-name", theme);
                 }
             }));
     
@@ -317,11 +310,11 @@ window.addEventListener("pywebviewready", function() {
 })
 
 function hideMenu() {
-    document.getElementById("screenContent").style.backdropFilter = "blur(0px)";
+    document.getElementById("contextMenuContent").style.backdropFilter = "blur(0px)";
     document.getElementById('itemMenu').style.scale = "0.8";
     document.getElementById('itemMenu').style.opacity = "0";
     setTimeout(() => {
-        document.getElementById('focusScreen').style.zIndex = "-1";
+        document.getElementById('contextMenuScreen').style.zIndex = "-1";
     }, 320)
 }
 
@@ -348,13 +341,13 @@ function renderMenu(options) {
             // slight delay cuz of config not updating fast enough i think
             setTimeout(() => {
                 window.pywebview.api.updateFrontendConfigDisplays();
-            }, 50)
+            }, 10)
         });
         menuContainer.appendChild(interactable);
     });
 
-    document.getElementById("screenContent").style.backdropFilter = "blur(5px)";
+    document.getElementById("contextMenuContent").style.backdropFilter = "blur(5px)";
     document.getElementById('itemMenu').style.scale = "1";
     document.getElementById('itemMenu').style.opacity = "1";
-    document.getElementById('focusScreen').style.zIndex = "2";
+    document.getElementById('contextMenuScreen').style.zIndex = "2";
 }

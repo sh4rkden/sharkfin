@@ -16,8 +16,8 @@ window.addEventListener("pywebviewready", function() {
                 display: inline-block;
                 width: 42px;
                 height: 42px;
-                background: url('/assets/images/checkbox.webp') no-repeat center;
-                background-size: contain;
+                background: url('/assets/images/ui/tile.webp') no-repeat center;
+                background-size: 32px, 32px;
                 cursor: pointer;
             }
             .checkbox img {
