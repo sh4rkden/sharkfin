@@ -1,1 +1,0 @@
-var backend = window.pywebview.api;
