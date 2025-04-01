@@ -4,9 +4,6 @@ from glob import glob
 from os import getenv, path
 
 class Sharkfin:
-    _isConnected = False
-    _userList = []
-    
     def __init__(self):
         self._event_handlers = {}
         self.cookie_consent = False
@@ -66,26 +63,10 @@ class LogShark(Sharkfin):
                     message_received = re.search(r"Success Text: (.*)", line)
                     player_joiend = re.search(r"Player added: (.*)", line)
                     player_left = re.search(r"Player removed: (.*)", line)
-                    player_loaded = re.search(r"Local character loaded: (.*)", line)
-                    game_join = re.search(r"! Joining game (.*)", line)
+                    player_spawned = re.search(r"Local character loaded: (.*)", line)
+                    game_joining = re.search(r"! Joining game (.*)", line)
+                    game_joined = re.search(r"placeid:(\d+).*?universeid:(\d+).*?referral_page:([^,]*).*?sid:([\w-]+).*?userid:(\d+)", line)
                     game_leave = re.search(r"leaveUGCGameInternal", line)
-
-                    if game_join:
-                        if not self._isConnected:
-                            self._isConnected = True
-
-                        game = game_join.group(1)
-                        game_match = re.search(r"'([a-f0-9\-]+)'\s+place\s+(\d+)\s+at\s+([\d\.]+)", game)
-                        if game_match:
-                            instance_id, game_id = game_match.group(1), game_match.group(2)
-                            await self.dispatch_event("game_join", instance_id, game_id)
-                        else:
-                            print("ERROR: Game info did not match expected format.")
-
-                    elif game_leave:
-                        if self._isConnected:
-                            self._isConnected = False
-                        await self.dispatch_event("game_leave")
 
                     if message_sent:
                         message = message_sent.group(1)
@@ -101,18 +82,36 @@ class LogShark(Sharkfin):
                             await self.dispatch_event("player_joined", user, int(id))
                         else:
                             print("ERROR: Player joined log format unexpected.")
-                    elif player_loaded:
-                        player = player_loaded.group(1)
-                        await self.dispatch_event("player_loaded", player)
-                    elif player_left and self._isConnected:
+                    elif player_spawned:
+                        player = player_spawned.group(1)
+                        await self.dispatch_event("player_spawned", player)
+                    elif player_left:
                         player = player_left.group(1).split(" ")
                         if len(player) >= 2:
                             user, id = player[0], player[1]
-                            await self.dispatch_event("player_leave", user, int(id))
+                            await self.dispatch_event("player_left", user, int(id))
                         else:
                             print("ERROR: Player left log format unexpected.")
+                    
+                    if game_joining:
+                        game = game_joining.group(1)
+                        game_match = re.search(r"'([a-f0-9\-]+)'\s+place\s+(\d+)\s+at\s+([\d\.]+)", game)
+                        if game_match:
+                            instance_id, game_id = game_match.group(1), game_match.group(2)
+                            await self.dispatch_event("game_joining", instance_id, game_id)
+                        else:
+                            print("ERROR: Game info did not match expected format.")
+                    elif game_joined:
+                        game_match = game_joined
+                        if game_match:
+                            place_id, universe_id, referral_page, instance_id, user_id = game_match.groups()
+                            await self.dispatch_event("game_joined", place_id, universe_id, referral_page, instance_id, user_id)
+                        else:
+                            print("ERROR: Joined info did not match expected format.")
+                    elif game_leave:
+                        await self.dispatch_event("game_leave")
 
-            await asyncio.sleep(0.1)
+            await asyncio.sleep(0.01)
 
 class SharkfinTools(Sharkfin):
     ...

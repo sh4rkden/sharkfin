@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="./assets/html/styles/main.css">
+    <script src="./assets/html/scripts/main.js"></script>
+    <script src="./assets/html/scripts/checkbox.js"></script>
+</head>
+<body>
+    <div class="checkBg" style="position: fixed; top: 0; left: 0; --color1: #3b68b1; --color2: #3876b1; width: 100vw; height: 100vh; z-index: -1;"></div>
+    
+    <div style="max-height: calc(100vh - 24px); height: 100%;">
+        <div class="pywebview-drag-region titleBar" style="background-color: #4274c5; position: fixed; top: 0; left: 0; height: 24px; width: 100%; padding: 0 5px; z-index: 2;">
+            <div>
+                <img src="./assets/images/sharkfin.webp" style="image-rendering: auto; width: 32px; height: 32px; margin-top: 3px; pointer-events: none;">
+                <text id="titleText" style="position: relative; font-size: 14px; top: -17px; pointer-events: none; user-select: none;">sharkfin</text>
+            </div>
+
+            <div style="position: fixed; top: 4px; right: 5px;">
+                <div style="display: grid; grid-template-columns: 1fr 18px 18px; gap: 5px;">
+                    <text style="font-size: 14px; top: -17px; pointer-events: none; user-select: none;">v0.1.0-alpha</text>
+                    <img src="./assets/images/minimize.webp" draggable="false" width="18px" height="auto" onclick="window.pywebview.api.minimizeWindow()">
+                    <img src="./assets/images/close.webp" draggable="false" width="18px" height="auto" onclick="window.pywebview.api.closeWindow()">
+                </div>
+            </div>
+        </div>
+
+        <div style="display: grid; grid-template-columns: 42px 1fr; margin-top: 24px; width: 100%; height: 100%; z-index: 1;">
+            <div class="sidebar" style="box-sizing: border-box; display: flex; flex-direction: column; justify-content: space-between; gap: 3px; padding: 5px; background-color: #4274c5; height: 100%;">
+                <div style="display: flex; flex-direction: column; gap: 3px; margin-top: 10px;">
+                    <tabButton style="--bgcolor: #3f85c7;" onclick="document.querySelector('#integrations')?.scrollIntoView({ behavior: 'smooth' })">
+                        <img src="./assets/images/puzzle_pieces.webp" style="scale: 1.2;">
+                        <text>Integrations</text>
+                    </tabButton>
+                    <tabButton style="--bgcolor: #3f85c7;" onclick="document.querySelector('#modding')?.scrollIntoView({ behavior: 'smooth' })">
+                        <img src="./assets/images/hard_hat.webp" style="scale: 1.2;">
+                        <text>Modding</text>
+                    </tabButton>
+                    <tabButton style="--bgcolor: #3f85c7;" onclick="document.querySelector('#fastflags')?.scrollIntoView({ behavior: 'smooth' })">
+                        <img src="./assets/images/flag.webp" style="scale: 1.25;">
+                        <text>FastFlags</text>
+                    </tabButton>
+                    <tabButton style="--bgcolor: #3f85c7;" onclick="document.querySelector('#customization')?.scrollIntoView({ behavior: 'smooth' })">
+                        <img src="./assets/images/bucket.webp" style="scale: 1.25;">
+                        <text>Customization</text>
+                    </tabButton>
+                    <tabButton style="--bgcolor: #3f85c7;" onclick="document.querySelector('#deployment')?.scrollIntoView({ behavior: 'smooth' })">
+                        <img src="./assets/images/cloudcog.webp" style="scale: 1.25;">
+                        <text>Deployment</text>
+                    </tabButton>
+                </div>
+                
+                <div style="display: flex; flex-direction: column; gap: 3px;">
+                    <tabButton style="--bgcolor: #3f85c7;">
+                        <img src="./assets/images/discord_logo.webp">
+                        <text>snarkden</text>
+                    </tabButton>
+
+                    <tabButton style="--bgcolor: #3f85c7;">
+                        <img src="./assets/images/start.webp">
+                        <text>Launch</text>
+                    </tabButton>
+                </div>
+            </div>
+
+            <div class="content" style="padding: 0 10%; overflow-y: auto; max-height: calc(100vh - 24px);">
+                <div id="integrations" style="padding-top: 42px;">
+                    <div style="display: flex; line-height: 22px; margin-bottom: 32px;">
+                        <div>
+                            <text style="font-size: 32px;">Integrations</text><br>
+                            <text>Configure additional Integrations that will run with Roblox.</text>
+                        </div>
+                        <img src="./assets/images/puzzle_pieces.webp" style="position: relative; width: 46px; height: 47px; scale: 2; margin-left: auto; margin-right: 16px;">
+                    </div>
+
+                    <div style="display: flex; flex-direction: column; gap: 5px; margin-bottom: 32px;">
+                        <div style="display: flex; line-height: 22px;">
+                            <div>
+                                <text style="font-size: 22px;">Activity Tracking Permissions</text><br>
+                                <text style="font-size: 14px;">Configure what sharkfin can track from your Roblox Activity.</text>
+                            </div>
+                        </div>
+
+                        <uiOption>
+                            <div style="align-content: center; line-height: 16px;">
+                                <text>Experiences</text><br>
+                                <text style="font-size: 12px;">Allow sharkfin to track what game you are currently playing in Roblox.</text>
+                            </div>
+                            <div style="margin-left: auto; align-content: center;">
+                                <checkbox-toggle data-id="experience-tracking"></checkbox-toggle>
+                            </div>
+                        </uiOption>
+
+                        <uiOption>
+                            <div style="align-content: center; line-height: 16px;">
+                                <text>Server Location</text><br>
+                                <text style="font-size: 12px;">Allow sharkfin to track the location of the Roblox Game Server you are currently on.</text>
+                            </div>
+                            <div style="margin-left: auto; align-content: center;">
+                                <checkbox-toggle data-id="experience-tracking"></checkbox-toggle>
+                            </div>
+                        </uiOption>
+
+                        <uiOption>
+                            <div style="align-content: center; line-height: 16px;">
+                                <text>Player Activity</text><br>
+                                <text style="font-size: 12px;">Allow sharkfin to track the Chat Messages and Join/Leave Activity of players to the Server you are currently on.</text>
+                            </div>
+                            <div style="margin-left: auto; align-content: center;">
+                                <checkbox-toggle data-id="experience-tracking"></checkbox-toggle>
+                            </div>
+                        </uiOption>
+                    </div>
+
+                    <div style="display: flex; flex-direction: column; gap: 5px; margin-bottom: 32px;">
+                        <div style="display: flex; line-height: 22px;">
+                            <div>
+                                <text style="font-size: 22px;">Discord RPC</text><br>
+                                <text style="font-size: 14px;">Integrate sharkfin's custom Discord Rich Presence to your Discord Avatar.</text>
+                            </div>
+                        </div>
+
+                        <uiOption>
+                            <div style="align-content: center; line-height: 16px;">
+                                <text>Display Game Activity</text><br>
+                                <text style="font-size: 12px;">Show others what you are currently playing in Roblox.</text>
+                            </div>
+                            <div style="margin-left: auto; align-content: center;">
+                                <checkbox-toggle data-id="experience-tracking"></checkbox-toggle>
+                            </div>
+                        </uiOption>
+
+                        <uiOption>
+                            <div style="align-content: center; line-height: 16px;">
+                                <text>Display Roblox Account</text><br>
+                                <text style="font-size: 12px;">Show others what account you are currently playing as in Roblox.</text>
+                            </div>
+                            <div style="margin-left: auto; align-content: center;">
+                                <checkbox-toggle data-id="experience-tracking"></checkbox-toggle>
+                            </div>
+                        </uiOption>
+
+                        <uiOption>
+                            <div style="align-content: center; line-height: 16px;">
+                                <text>Rich Presence Joining</text><br>
+                                <text style="font-size: 12px;">Allow anyone who can see your Discord Avatar to join you on Roblox via the Rich Presence.</text>
+                            </div>
+                            <div style="margin-left: auto; align-content: center;">
+                                <checkbox-toggle data-id="experience-tracking"></checkbox-toggle>
+                            </div>
+                        </uiOption>
+                    </div>
+                </div>
+
+                <div id="modding" style="padding-top: 42px;">
+                    <div style="display: flex; line-height: 22px; margin-bottom: 32px;">
+                        <div>
+                            <text style="font-size: 32px;">Modding</text><br>
+                            <text>Configure the mods of sharkfin and the Roblox Player.</text>
+                        </div>
+                        <img src="./assets/images/hard_hat.webp" style="position: relative; width: 46px; height: 47px; scale: 2; margin-left: auto; margin-right: 16px;">
+                    </div>
+                </div>
+
+                <div id="fastflags" style="padding-top: 42px;">
+                    <div style="display: flex; line-height: 22px; margin-bottom: 32px;">
+                        <div>
+                            <text style="font-size: 32px;">FastFlags</text><br>
+                            <text>Configure the FastFlags that will be run to the Roblox Player in runtime.</text>
+                        </div>
+                        <img src="./assets/images/flag.webp" style="position: relative; width: 46px; height: 47px; scale: 2; margin-left: auto; margin-right: 16px;">
+                    </div>
+                </div>
+
+                <div id="customization" style="padding-top: 42px;">
+                    <div style="display: flex; line-height: 22px; margin-bottom: 32px;">
+                        <div>
+                            <text style="font-size: 32px;">Customization</text><br>
+                            <text>Configure the customization for sharkfin and the Roblox Player.</text>
+                        </div>
+                        <img src="./assets/images/bucket.webp" style="position: relative; width: 46px; height: 47px; scale: 2; margin-left: auto; margin-right: 16px;">
+                    </div>
+                </div>
+
+                <div id="deployment" style="padding-top: 42px;">
+                    <div style="display: flex; line-height: 22px; margin-bottom: 32px;">
+                        <div>
+                            <text style="font-size: 32px;">Deployment</text><br>
+                            <text>Configure deployment settings for sharkfin and the Roblox Player.</text>
+                        </div>
+                        <img src="./assets/images/cloudcog.webp" style="position: relative; width: 46px; height: 47px; scale: 2; margin-left: auto; margin-right: 16px;">
+                    </div>
+                </div>
+
+                <div id="about" style="padding-top: 42px;">
+                    <div style="display: flex; line-height: 22px; margin-bottom: 32px;">
+                        <div>
+                            <text style="font-size: 32px;">About</text><br>
+                            <text>Configure deployment settings for sharkfin and the Roblox Player.</text>
+                        </div>
+                        <img src="./assets/images/sharkfin_framework.webp" style="position: relative; width: 46px; height: 47px; scale: 2; margin-left: auto; margin-right: 16px;">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

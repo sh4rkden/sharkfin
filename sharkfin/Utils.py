@@ -1,6 +1,19 @@
 from winreg import CreateKey, SetValue, SetValueEx, CloseKey, HKEY_CURRENT_USER, REG_SZ
 from subprocess import check_output
+from threading import Timer
 from re import split
+
+def debounce(time):
+    def decorator(fn):
+        timer = None
+        def debounced(*args, **kwargs):
+            nonlocal timer
+            if timer is not None:
+                timer.cancel()
+            timer = Timer(time, lambda: fn(*args, **kwargs))
+            timer.start()
+        return debounced
+    return decorator
 
 def get_gpu_list():
     try:

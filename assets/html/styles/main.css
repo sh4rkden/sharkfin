@@ -8,6 +8,7 @@
     text-rendering: optimizeLegibility;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+    backface-visibility: hidden;
     font-family: "Quicksand";
 }
 html, body {
@@ -82,13 +83,11 @@ uiOption {
     border-radius: 5px;
     padding: 10px;
     gap: 5px;
-    will-change: transform;
-    transition: transform 200ms ease;
-    transform: translateZ(0);
+    transition: 200ms;
 }
 
 uiOption:hover {
-    transform: scale(1.01) translateZ(0);
+    background-color: #4192de;
 }
 
 uiInteractable {
@@ -97,14 +96,12 @@ uiInteractable {
     border-radius: 5px;
     padding: 10px;
     gap: 5px;
-    will-change: transform;
-    transition: transform 200ms ease, background-color 200ms ease;
-    transform: translateZ(0);
     cursor: pointer;
+    transition: 200ms;
 }
 
 uiInteractable:hover {
-    transform: scale(1.01) translateZ(0);
+    transform: #4192de;
 }
 
 uiInteractable:active {

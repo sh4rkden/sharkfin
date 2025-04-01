@@ -1,7 +1,6 @@
 import asyncio
 import json
 import os
-import platform
 import subprocess
 import sys
 import time
@@ -25,9 +24,6 @@ def resource(path: str):
 
 #? main sharkfin window
 class SharkfinWindow:
-    reinstallingClient = False
-    window = None
-    
     #* ASYNC FUNCTIONS
     
     async def read(self, filepath: str):
@@ -61,146 +57,6 @@ class SharkfinWindow:
                 return True
         
         return asyncio.run(_func(item, value))
-
-    def updateFrontendConfigDisplays(self):
-        async def _func():
-            config_path = resource("data/config.json")
-            config = await self.read(config_path)
-            
-            preferredGPU = "Automatic" if config["fflag-preferred-gpu"].lower() == "auto" else config["fflag-preferred-gpu"]
-            renderingMode = config["fflag-rendering-mode"]
-            msaaQuality = config["fflag-msaa-quality"]
-            textureQuality = config["fflag-texture-quality"]
-            lightingTechnology = config["fflag-lighting-technology"]
-            mouseCursor = config["customization-custom-cursor"]
-            loaderTheme = config["sharkfin-loader-name"]
-
-            display_mappings = {
-                "rendering_mode": {
-                    "auto": "Automatic",
-                    "vulkan": "Vulkan",
-                    "opengl": "OpenGL",
-                    "d3d10": "Direct3D 10",
-                    "d3d11": "Direct3D 11",
-                },
-                "msaa_quality": {
-                    "auto": "Automatic",
-                    "1": "1x",
-                    "2": "2x",
-                    "4": "4x",
-                    "8": "8x (buggy)",
-                    "16": "16x (buggy)",
-                },
-                "texture_quality": {
-                    "auto": "Automatic",
-                    "0": "Lowest (0)",
-                    "1": "Low (1)",
-                    "2": "High (2)",
-                    "3": "Highest (3)",
-                },
-                "lighting_technology": {
-                    "auto": "Automatic",
-                    "voxel": "Voxel",
-                    "shadowmap": "Shadow Map",
-                    "future": "Future",
-                },
-                "mouse_cursor": {
-                    "default": "Default",
-                    "angular": "Angular",
-                    "cartoony": "Cartoony",
-                },
-            }
-
-            def set_text(element_id, text):
-                window.run_js(f'document.getElementById("{element_id}").innerText = "{text}"')
-
-            set_text("preferred-gpu-text", preferredGPU)
-            set_text("rendering-mode-text", display_mappings["rendering_mode"].get(renderingMode, renderingMode))
-            set_text("msaa-quality-text", display_mappings["msaa_quality"].get(msaaQuality, msaaQuality))
-            set_text("texture-quality-text", display_mappings["texture_quality"].get(textureQuality, textureQuality))
-            set_text("lighting-technology-text", display_mappings["lighting_technology"].get(lightingTechnology, lightingTechnology))
-            set_text("roblox-mouse-cursor-text", display_mappings["mouse_cursor"].get(mouseCursor, mouseCursor))
-            set_text("loader-change-theme-text", loaderTheme)
-
-        return asyncio.run(_func())
-    
-    def getGPUList(self):
-        return Utils.get_gpu_list()
-
-    def getLoaderThemeList(self):
-        return [f for f in os.listdir(resource(os.path.join("loader-themes")))
-                if os.path.isdir(resource(os.path.join("loader-themes", f)))]
-    
-    def openLoaderThemesFolder(self):
-        opsys = platform.system()
-        folderpath = resource(os.path.join("loader-themes"))
-        
-        # different systems
-        # hopefully i get proper darwin support
-        if opsys == "Windows":
-            os.startfile(folderpath)
-        elif opsys == "Darwin":
-            subprocess.call(["open", folderpath])
-    
-    def getClientSettings(self):
-        time.sleep(0.05)
-        config_path = resource("data/config.json")
-        
-        with open(config_path, "r") as file:
-            config = json.load(file)
-            try:
-                channel = config["deployment-roblox-channel"]
-                url = "https://clientsettings.roblox.com/v2/client-version/WindowsPlayer"
-                
-                if channel != "production":
-                    url = url + f"/channel/{channel}"
-                    
-                response = httpx.get(url)
-                response.raise_for_status()
-                data = response.json()
-                version = data.get("version")
-                clientVersionUpload = data.get("clientVersionUpload")
-                return version, clientVersionUpload
-            except httpx.HTTPStatusError:
-                return "???", "???"
-    
-    def setDefault(self):
-        if getattr(sys, "frozen", False):
-            application_path = f'"{sys.executable}"'
-        else:
-            application_path = f'"{sys.executable}" "{__file__}"'
-            
-        Utils.set_protocol("roblox", application_path, "sharkfin")
-        Utils.set_protocol("roblox-player", application_path, "sharkfin")
-    
-    def reinstallRoblox(self):
-        if not self.reinstallingClient:
-            self.reinstallingClient = True
-            window.run_js('document.getElementById("reinstallprogress").style.pointerEvents = "none"')
-
-            def changeStatus(text):
-                window.run_js(f'document.getElementById("status").innerText = "{text}"')
-
-            changeStatus("Starting Reinstallation...")
-            
-            try:
-                os.rmtree(resource(os.path.join("Roblox", "Player")))
-            except FileNotFoundError:
-                pass
-
-            for percentage, status in RobloxDownloader.download(RobloxDownloader.WINDOWSPLAYER):
-                changeStatus(f"({percentage}%) {status}")
-                window.run_js(
-                    f'document.getElementById("reinstallprogress").style.background = "linear-gradient(to right, #3f85c7 {percentage}%, grey {percentage}%"'
-                )
-                
-            window.run_js('document.getElementById("reinstallprogress").style.background = ""')
-            window.run_js('document.getElementById("reinstallprogress").style.pointerEvents = "all"')
-            
-            changeStatus("Roblox Client Reinstalled!")
-            time.sleep(5)
-            changeStatus("Reinstall the Roblox Client.")
-            self.reinstallingClient = False
 
 #? sharkfin window for editing fast flags. 
 class SharkfinFFlagEditor:
@@ -243,21 +99,133 @@ class SharkfinLoaderWindow:
                     changeStatus(f"({percentage}%) {status}")
                     loader.run_js(f'document.getElementById("progress").style.width = "{percentage}%"')
             
+            loader.run_js('document.getElementById("progress").style.width = "0%"')
             
-            instance = SharkfinInstance()
-            RobloxRPC = pypresence.Presence("1351739329038258237")
-            RobloxRPC.connect()
-            RobloxRPC.update(state="Loading...")
+            if True: #! make this a conditional
+                changeStatus("Starting Discord RPC...")
+                instance = SharkfinInstance()
+                RobloxClientId = "1351739329038258237" # for sharkfin
+                RobloxRPC = pypresence.Presence(RobloxClientId)
+                RobloxRPC.connect()
 
-            @instance.event
-            async def game_join(instance_id, game_id):
-                print("joining " + game_id)
+                #? i have no idea why but this makes it so that i dont have to define
+                #? global variables that i need to put lol
+                game = {
+                    "name": "",
+                    "image": "",
+                    "maxPlayers": 0
+                }
 
-            @instance.event
-            async def player_loaded(username):
-                print(f"Player Loaded: {username}")
-                
-            Thread(target=instance.run, daemon=True).start()
+                user = {
+                    "name": "",
+                    "image": ""
+                }
+
+                server = {
+                    "startTime": 0,
+                    "isConnected": False,
+                    "isReserved": False,
+                    "isPrivate": False,
+                    "pid": "",
+                    "uid": "",
+                    "id": "",
+                    "ref": "",
+                    "currentPlayers": 0,
+                }
+
+                #? only called when in-game
+                @Utils.debounce(.1)
+                def updateRichPresence():
+                    if server["currentPlayers"] < 1:
+                        RobloxRPC.update(
+                            state="Home",
+                            large_image="roblox"
+                        )
+                    else:
+                        if server["isReserved"] or server["isPrivate"]:
+                            stype = "private, reserved" if server["isReserved"] and server["isPrivate"] else "private" if server["isPrivate"] else "reserved"
+
+                            RobloxRPC.update(
+                                state="Playing " + game["name"],
+                                details=f"In a {stype} server.",
+                                large_image=game["image"],
+                                small_image=user["image"],
+                                small_text=user["name"],
+                                start=server["startTime"]
+                            )
+                        else:
+                            RobloxRPC.update(
+                                state="Playing " + game["name"],
+                                large_image=game["image"],
+                                small_image=user["image"],
+                                small_text=user["name"],
+                                party_id=server["id"],
+                                party_size=[server["currentPlayers"], game["maxPlayers"]],
+                                start=server["startTime"]
+                            )
+
+                @instance.event
+                async def player_joined(user, id):
+                    server["currentPlayers"] += 1
+                    updateRichPresence()
+
+                @instance.event
+                async def player_left(user, id):
+                    if server["isConnected"]:
+                        server["currentPlayers"] -= 1
+                        updateRichPresence()
+
+                @instance.event
+                async def game_joined(place_id, universe_id, referral_page, instance_id, user_id):
+
+                    #! ----- METHOD ONLY WORKS IF RAN IN WEBSITE!! -----
+                    if server["isConnected"] and referral_page == "":
+                        #gamePlaceData = httpx.get(f"https://games.roblox.com/v1/games/multiget-place-details?placeIds={place_id}").json()
+                        if server["uid"] == universe_id and server["pid"] != place_id: #? server is reserved
+                            print("detected that the game is a reserved server!!!")
+                            server["isReserved"] = True
+                            return
+
+                    if referral_page in ["RequestPrivateGame"]: #? server is vip server
+                        print("server is vip server!!!")
+                        server["isPrivate"] = True
+                    else:
+                        server["isPrivate"] = False
+                    server["isReserved"] = False #? revert to normal just in case.
+                    #! ----- METHOD ONLY WORKS IF RAN IN WEBSITE!! -----
+
+                    server["isConnected"] = True
+                    server["startTime"] = time.time()
+
+                    gameData = httpx.get(f"https://games.roblox.com/v1/games?universeIds={universe_id}").json()
+                    gameIcon = httpx.get(f"https://thumbnails.roblox.com/v1/games/icons?universeIds={universe_id}&size=512x512&format=Png&isCircular=false").json()
+                    userData = httpx.get(f"https://users.roblox.com/v1/users/{user_id}").json()
+                    userIcon = httpx.get(f"https://thumbnails.roblox.com/v1/users/avatar-headshot?userIds={user_id}&size=420x420&format=Png&isCircular=false").json()
+
+                    game["name"] = gameData["data"][0]["name"]
+                    game["image"] = gameIcon["data"][0]["imageUrl"]
+                    game["maxPlayers"] = int(gameData["data"][0]["maxPlayers"])
+
+                    user["name"] = userData["displayName"] + " (@" + userData["name"] + ")"
+                    user["image"] = userIcon["data"][0]["imageUrl"]
+
+                    server["pid"] = place_id
+                    server["uid"] = universe_id
+                    server["id"] = instance_id
+                    server["ref"] = referral_page
+
+                    print(f"joined to a {referral_page} game")
+                    updateRichPresence()
+
+
+                @instance.event
+                async def game_leave():
+                    server["isConnected"] = False
+                    server["currentPlayers"] = 0
+                    updateRichPresence()
+
+                updateRichPresence()
+                Thread(target=instance.run, daemon=True).start()
         
             #? apply fastflags and file mods
             
@@ -266,11 +234,15 @@ class SharkfinLoaderWindow:
             changeStatus("Starting Roblox...")
             time.sleep(1)
             loader.hide() # destroy = completely kill the entire process.. NO WONDER WHY RUNNING ROBLOX KILLS ALL OF THESE
+            
             playerPath = resource(os.path.join("Roblox", "Player", "RobloxPlayerBeta.exe"))
             subprocess.run([playerPath, command], shell=True)
+            
+            if True: #! add rpc integration option if enabled or not pls
+                RobloxRPC.close()
+                
             loader.show()
-            changeStatus("Stopping Roblox...")
-            time.sleep(1)
+            changeStatus("Stopping Processes...")
             
             #? remove file mods and fastflags
             
@@ -278,9 +250,6 @@ class SharkfinLoaderWindow:
 
         elif command.startswith("studio"): # studio support soon
             ...
-        else:
-            print("ERROR: INVALID PROTOCOL LAUNCH ARGUMENT")
-            input("Press enter to exit.")
             
         loader.destroy()
 
@@ -324,12 +293,12 @@ if __name__ == "__main__":
         
         window = webview.create_window(
             title="sharkfin",
-            url="./main.html",
+            url="./new.html",
             
-            width=1000 + 16, height=800 + 39,
+            width=1100 + 16, height=780 + 39,
             frameless=True,
             easy_drag=True,
             js_api=sharkfin
         )
         
-        webview.start(debug=True)
+        webview.start(debug=False)
